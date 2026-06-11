@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JH Growth Academy 🚀</title>
+<style>
+:root{--bg:#0f0f1a;--bg2:#1a1a2e;--card:#1e1e30;--accent:#7c3aed;--accent2:#06b6d4;--green:#10b981;--orange:#f59e0b;--red:#ef4444;--pink:#ec4899;--text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;--border:rgba(255,255,255,0.08);--r:14px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px;line-height:1.6;min-height:100vh}
+.nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav-title{font-size:18px;font-weight:700;background:linear-gradient(90deg,#a78bfa,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-progress{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2)}
+.nav-bar{width:120px;height:6px;background:rgba(255,255,255,0.08);border-radius:10px;overflow:hidden}
+.nav-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:10px;transition:width .5s ease}
+.btn-sync{background:rgba(6,182,212,0.12);color:var(--accent2);border:1px solid rgba(6,182,212,0.3);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer}
+.btn-settings{background:rgba(255,255,255,0.06);color:var(--text2);border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-size:14px;cursor:pointer}
+.sync-status{font-size:11px;color:var(--text3);min-width:60px}
+.hero{background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(6,182,212,0.08));border-bottom:1px solid var(--border);padding:48px 24px 40px;text-align:center}
+.hero h1{font-size:clamp(26px,5vw,40px);font-weight:800;margin-bottom:12px;background:linear-gradient(90deg,#a78bfa,#06b6d4,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:15px;color:var(--text2);max-width:600px;margin:0 auto 20px}
+.hero-tags{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.tag{background:rgba(124,58,237,0.15);color:#a78bfa;border:1px solid rgba(124,58,237,0.3);padding:4px 12px;border-radius:20px;font-size:12px}
+.container{max-width:900px;margin:0 auto;padding:28px 20px}
+.section-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.modules-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:32px}
+.mod-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .2s}
+.mod-card:not(.locked):hover{border-color:rgba(124,58,237,0.4);transform:translateX(3px)}
+.mod-card.active{border-color:var(--accent);background:rgba(124,58,237,0.08)}
+.mod-card.completed{border-color:rgba(16,185,129,0.4);background:rgba(16,185,129,0.05)}
+.mod-card.locked{opacity:.45;cursor:not-allowed}
+.mod-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.mod-info{flex:1}
+.mod-num{font-size:11px;color:var(--text3);margin-bottom:2px}
+.mod-title{font-size:15px;font-weight:600;color:#fff}
+.mod-sub{font-size:12px;color:var(--text2);margin-top:2px}
+.mod-status{font-size:11px;padding:3px 10px;border-radius:20px;flex-shrink:0;white-space:nowrap}
+.s-active{background:rgba(124,58,237,0.2);color:#a78bfa}
+.s-done{background:rgba(16,185,129,0.2);color:#34d399}
+.s-locked{background:rgba(100,116,139,0.12);color:var(--text3)}
+.module-content{display:none}
+.module-content.visible{display:block;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.mod-header{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.mod-header .icon{font-size:28px}
+.mod-header .num{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px}
+.mod-header .title{font-size:21px;font-weight:800;color:#fff}
+.lcard{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin-bottom:12px}
+.lcard h3{font-size:16px;font-weight:700;color:#fff;margin-bottom:9px}
+.lcard p{color:var(--text2);margin-bottom:9px;font-size:14px}
+.lcard p:last-child{margin-bottom:0}
+.hl{background:rgba(124,58,237,0.1);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 7px 7px 0;margin:10px 0;color:var(--text);font-size:14px}
+.hl strong{color:#a78bfa}
+.hl2{background:rgba(6,182,212,0.07);border-left:3px solid var(--accent2);padding:10px 14px;border-radius:0 7px 7px 0;margin:10px 0;font-size:14px}
+.hl2 strong{color:var(--accent2)}
+.hl3{background:rgba(16,185,129,0.07);border-left:3px solid var(--green);padding:10px 14px;border-radius:0 7px 7px 0;margin:10px 0;font-size:14px}
+.hl3 strong{color:#34d399}
+.analogy{background:rgba(6,182,212,0.07);border-left:3px solid var(--accent2);padding:11px 14px;border-radius:0 8px 8px 0;margin:10px 0}
+.analogy .lbl{font-size:10px;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.analogy p{font-size:13px;color:var(--text2);margin:0}
+.callout{background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.2);border-radius:9px;padding:12px 14px;margin:10px 0}
+.callout .lbl{font-size:10px;font-weight:700;color:var(--orange);text-transform:uppercase;margin-bottom:3px}
+.callout p{font-size:13px;color:var(--text2);margin:0}
+.stat-row{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.stat{background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:9px;padding:11px 14px;flex:1;min-width:110px;text-align:center}
+.stat .v{font-size:20px;font-weight:700;color:#fff}
+.stat .l{font-size:11px;color:var(--text3);margin-top:2px}
+.cs{background:var(--card);border:1px solid rgba(6,182,212,0.3);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
+.cs-head{padding:16px 20px;cursor:pointer;display:flex;align-items:center;gap:10px;background:rgba(6,182,212,0.05)}
+.cs-head:hover{background:rgba(6,182,212,0.09)}
+.cs-badge{background:rgba(6,182,212,0.14);color:var(--accent2);padding:2px 9px;border-radius:20px;font-size:11px;font-weight:600}
+.cs-title{font-size:15px;font-weight:700;color:#fff;flex:1}
+.cs-tog{color:var(--text3);font-size:16px;transition:transform .3s}
+.cs-body{padding:0 20px 18px;display:none}
+.cs-body.open{display:block}
+.cs-body h4{font-size:12px;font-weight:600;color:var(--accent2);text-transform:uppercase;letter-spacing:.05em;margin:14px 0 6px}
+.cs-body p,.cs-body li{color:var(--text2);font-size:13px;margin-bottom:5px}
+.cs-body ul{padding-left:16px}
+.quiz-box{background:var(--card);border:1px solid rgba(245,158,11,0.2);border-radius:var(--r);padding:20px;margin-bottom:12px}
+.quiz-box h3{font-size:15px;font-weight:700;color:#fff;margin-bottom:3px}
+.quiz-sub{font-size:12px;color:var(--text3);margin-bottom:16px}
+.question{margin-bottom:18px}
+.question p{font-size:14px;font-weight:500;color:#fff;margin-bottom:9px}
+.opts{display:flex;flex-direction:column;gap:7px}
+.opt{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:10px 13px;cursor:pointer;font-size:13px;color:var(--text2);transition:all .15s;display:flex;align-items:center;gap:8px}
+.opt:hover{border-color:rgba(124,58,237,0.4);color:var(--text);background:rgba(124,58,237,0.05)}
+.opt.correct{background:rgba(16,185,129,0.1);border-color:rgba(16,185,129,0.45);color:#34d399}
+.opt.wrong{background:rgba(239,68,68,0.08);border-color:rgba(239,68,68,0.35);color:#fca5a5}
+.opt.disabled{cursor:not-allowed;pointer-events:none}
+.dot{width:17px;height:17px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700}
+.opt.correct .dot{background:var(--green);border-color:var(--green);color:#fff}
+.opt.wrong .dot{background:var(--red);border-color:var(--red);color:#fff}
+.fb{font-size:12px;margin-top:6px;padding:7px 11px;border-radius:7px;display:none}
+.fb.show{display:block}
+.fb.ok{background:rgba(16,185,129,0.09);color:#34d399}
+.fb.no{background:rgba(239,68,68,0.07);color:#fca5a5}
+.qresult{text-align:center;padding:14px;border-top:1px solid var(--border);margin-top:10px;display:none}
+.qresult.show{display:block}
+.qresult .sc{font-size:28px;font-weight:800;color:#fff;margin-bottom:3px}
+.qresult .msg{font-size:13px;color:var(--text2)}
+.apply-box{background:var(--card);border:1px solid rgba(236,72,153,0.22);border-radius:var(--r);padding:20px;margin-bottom:12px}
+.apply-box h3{font-size:15px;font-weight:700;color:#fff;margin-bottom:3px}
+.apply-sub{font-size:12px;color:var(--text3);margin-bottom:12px}
+.apply-prompt{background:rgba(236,72,153,0.05);border-left:3px solid var(--pink);padding:11px 14px;border-radius:0 7px 7px 0;margin-bottom:12px;color:var(--text);font-size:13px;line-height:1.6}
+.apply-box textarea{width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:11px;font-size:13px;outline:none;resize:vertical;min-height:85px;font-family:inherit}
+.apply-box textarea:focus{border-color:var(--pink)}
+.btn-save{background:var(--pink);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:12px;font-weight:600;cursor:pointer;margin-top:7px}
+.saved-note{font-size:11px;color:var(--green);margin-top:5px;display:none}
+.saved-note.show{display:block}
+.complete-wrap{text-align:center;padding:8px 0 22px}
+.btn-complete{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:11px;padding:13px 32px;font-size:15px;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.btn-complete:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(124,58,237,0.4)}
+.btn-complete:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.portfolio-box{background:var(--card);border:1px solid rgba(16,185,129,0.22);border-radius:var(--r);padding:20px;margin-bottom:14px}
+.portfolio-box h3{font-size:15px;font-weight:700;color:#fff;margin-bottom:3px}
+.p-sub{font-size:12px;color:var(--text3);margin-bottom:14px}
+.p-item{background:rgba(255,255,255,0.025);border-radius:8px;padding:11px 13px;margin-bottom:7px;border-left:3px solid var(--border)}
+.p-item.filled{border-left-color:var(--green)}
+.p-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+.p-content{font-size:12px;color:var(--text2)}
+.m8-section{background:rgba(255,255,255,0.025);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px}
+.m8-section h4{font-size:13px;font-weight:600;color:var(--accent2);margin-bottom:8px}
+.m8-prev{background:rgba(16,185,129,0.07);border-left:3px solid var(--green);padding:9px 12px;border-radius:0 7px 7px 0;font-size:12px;color:var(--text2);margin-bottom:8px;white-space:pre-wrap;font-style:italic}
+.m8-prev.empty{color:var(--text3);font-style:normal}
+.btn-export{background:linear-gradient(90deg,var(--green),var(--accent2));color:#fff;border:none;border-radius:9px;padding:11px 24px;font-size:14px;font-weight:600;cursor:pointer;margin-top:8px}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:200;align-items:center;justify-content:center}
+.overlay.open{display:flex}
+.modal{background:#1e1e30;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;max-width:420px;width:90%;box-shadow:0 20px 50px rgba(0,0,0,0.6)}
+.modal h3{font-size:17px;font-weight:700;color:#fff;margin-bottom:7px}
+.modal p{font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6}
+.modal ol{padding-left:20px;margin-bottom:14px}
+.modal ol li{font-size:12px;color:var(--text2);margin-bottom:5px}
+.modal ol li strong{color:#fff}
+.modal input{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:10px 13px;font-size:13px;outline:none;margin-bottom:11px;font-family:inherit}
+.modal input:focus{border-color:var(--accent2)}
+.modal input::placeholder{color:var(--text3)}
+.modal-btns{display:flex;gap:8px}
+.btn-primary{background:var(--accent2);color:#fff;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;flex:1}
+.btn-secondary{background:rgba(255,255,255,0.05);color:var(--text2);border:1px solid var(--border);border-radius:8px;padding:9px 16px;font-size:13px;cursor:pointer}
+.modal-status{font-size:12px;margin-top:8px;text-align:center;min-height:16px}
+.chart{display:flex;align-items:flex-end;gap:6px;height:70px;margin:10px 0}
+.bar-w{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1}
+.bar{background:linear-gradient(180deg,var(--accent2),var(--accent));border-radius:3px 3px 0 0;width:100%;min-height:4px}
+.bar-v{font-size:10px;color:var(--accent2);font-weight:600}
+.bar-l{font-size:9px;color:var(--text3);text-align:center}
+@media(max-width:600px){.hero{padding:30px 14px 24px}.container{padding:18px 13px}.stat-row{flex-direction:column}.nav-bar{width:80px}}
+</style>
+</head>
+<body>
+<div class="overlay" id="settings-overlay">
+  <div class="modal">
+    <h3>☁️ GitHub Sync Setup</h3>
+    <p>Enter your GitHub token to save progress to your <code style="color:var(--accent2)">growth-academy</code> repo. Stored only in this browser.</p>
+    <ol>
+      <li>github.com → Settings → Developer settings → <strong>Fine-grained tokens</strong></li>
+      <li>New token → <strong>Contents: Read &amp; Write</strong> on <strong>growth-academy</strong> repo only</li>
+      <li>Paste below and save</li>
+    </ol>
+    <input type="password" id="token-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"/>
+    <div class="modal-btns">
+      <button class="btn-primary" onclick="saveTokenAndSync()">💾 Save &amp; Sync</button>
+      <button class="btn-secondary" onclick="hideSettings()">Cancel</button>
+    </div>
+    <div class="modal-status" id="modal-status"></div>
+  </div>
+</div>
+
+<div class="nav">
+  <div class="nav-title">🚀 JH Growth Academy</div>
+  <div class="nav-right">
+    <div class="nav-progress">
+      <span id="progressText">0/8</span>
+      <div class="nav-bar"><div class="nav-bar-fill" id="navBarFill" style="width:0%"></div></div>
+    </div>
+    <span class="sync-status" id="sync-status"></span>
+    <button class="btn-sync" onclick="handleSyncClick()">☁️ Sync</button>
+    <button class="btn-settings" onclick="showSettings()">⚙️</button>
+  </div>
+</div>
+
+<div class="hero">
+  <h1>Product Growth &amp; Marketing for AI Startups</h1>
+  <p>ADHD-friendly · Real case studies · Instant quizzes · Portfolio that grows with you 💜</p>
+  <div class="hero-tags">
+    <span class="tag">🧠 ADHD-friendly</span><span class="tag">📊 8 modules</span>
+    <span class="tag">🏆 Portfolio project</span><span class="tag">☁️ Syncs to GitHub</span>
+  </div>
+</div>
+
+<div class="container">
+<div class="section-label">Your learning path</div>
+<div class="modules-grid">
+  <div class="mod-card active" id="mc1" onclick="openModule(1)">
+    <div class="mod-icon" style="background:rgba(124,58,237,0.15)">🌱</div>
+    <div class="mod-info"><div class="mod-num">Module 1</div><div class="mod-title">How Startups Think About Growth</div><div class="mod-sub">Growth mindset, product vs marketing, growth loops</div></div>
+    <span class="mod-status s-active" id="ms1">Start →</span>
+  </div>
+  <div class="mod-card locked" id="mc2" onclick="openModule(2)">
+    <div class="mod-icon" style="background:rgba(6,182,212,0.1)">📊</div>
+    <div class="mod-info"><div class="mod-num">Module 2</div><div class="mod-title">The Metrics That Matter</div><div class="mod-sub">AARRR, North Star metric, retention curves, cohort analysis</div></div>
+    <span class="mod-status s-locked" id="ms2">🔒 Locked</span>
+  </div>
+  <div class="mod-card locked" id="mc3" onclick="openModule(3)">
+    <div class="mod-icon" style="background:rgba(16,185,129,0.1)">🔄</div>
+    <div class="mod-info"><div class="mod-num">Module 3</div><div class="mod-title">Product-Led Growth (PLG)</div><div class="mod-sub">How AI tools spread themselves — Notion, Figma, Cursor playbooks</div></div>
+    <span class="mod-status s-locked" id="ms3">🔒 Locked</span>
+  </div>
+  <div class="mod-card locked" id="mc4" onclick="openModule(4)">
+    <div class="mod-icon" style="background:rgba(245,158,11,0.1)">🗺️</div>
+    <div class="mod-info"><div class="mod-num">Module 4</div><div class="mod-title">Go-to-Market (GTM)</div><div class="mod-sub">ICP, positioning, channels, launch playbooks for AI products</div></div>
+    <span class="mod-status s-locked" id="ms4">🔒 Locked</span>
+  </div>
+  <div class="mod-card locked" id="mc5" onclick="openModule(5)">
+    <div class="mod-icon" style="background:rgba(236,72,153,0.1)">✍️</div>
+    <div class="mod-info"><div class="mod-num">Module 5</div><div class="mod-title">Content, SEO &amp; Organic Flywheels</div><div class="mod-sub">Building assets that compound — not one-off campaigns</div></div>
+    <span class="mod-status s-locked" id="ms5">🔒 Locked</span>
+  </div>
+  <div class="mod-card locked" id="mc6" onclick="openModule(6)">
+    <div class="mod-icon" style="background:rgba(124,58,237,0.1)">🕸️</div>
+    <div class="mod-info"><div class="mod-num">Module 6</div><div class="mod-title">Community, Virality &amp; Network Effects</div><div class="mod-sub">Midjourney's Discord playbook, K-factor, referral loops</div></div>
+    <span class="mod-status s-locked" id="ms6">🔒 Locked</span>
+  </div>
+  <div class="mod-card locked" id="mc7" onclick="openModule(7)">
+    <div class="mod-icon" style="background:rgba(6,182,212,0.1)">🤖</div>
+    <div class="mod-info"><div class="mod-num">Module 7</div><div class="mod-title">AI-Specific Growth Patterns</div><div class="mod-sub">Demos as growth, wow moments, data flywheels, AI moats</div></div>
+    <span class="mod-status s-locked" id="ms7">🔒 Locked</span>
+  </div>
+  <div class="mod-card locked" id="mc8" onclick="openModule(8)">
+    <div class="mod-icon" style="background:linear-gradient(135deg,rgba(124,58,237,0.2),rgba(6,182,212,0.15))">🏆</div>
+    <div class="mod-info"><div class="mod-num">Module 8 — Portfolio Capstone</div><div class="mod-title">Build Your Full GTM Plan</div><div class="mod-sub">Assemble everything into a portfolio piece you can show in interviews</div></div>
+    <span class="mod-status s-locked" id="ms8">🔒 Locked</span>
+  </div>
+</div>
+<div class="module-content visible" id="module1">
+  <div class="mod-header"><div class="icon">🌱</div><div><div class="num">Module 1</div><div class="title">How Startups Think About Growth</div></div></div>
+
+  <div class="lcard">
+    <h3>📈 Growth rate &gt; current size — always</h3>
+    <p>In your investment world, you looked at AUM or revenue. In startups, what matters far more is <strong style="color:#fff">rate of growth</strong> — week-over-week or month-over-month percentage.</p>
+    <div class="analogy"><div class="lbl">💡 Finance analogy</div><p>Growth rate IS the alpha. A company at $1M ARR growing 20%/month will overtake a company at $10M ARR growing 5%/month in ~12 months. Current size is just the starting point.</p></div>
+    <p>Paul Graham's definition: <em>"A startup is a company designed to grow fast."</em> Target: <strong style="color:#fff">5–7% week-over-week</strong> in early stage = 10–13x per year compounded.</p>
+    <div class="stat-row">
+      <div class="stat"><div class="v" style="color:var(--green)">5%</div><div class="l">Weekly → 12x/year</div></div>
+      <div class="stat"><div class="v" style="color:var(--accent2)">10%</div><div class="l">Weekly → 142x/year</div></div>
+      <div class="stat"><div class="v" style="color:var(--accent)">2%</div><div class="l">Weekly → 2.8x/year</div></div>
+    </div>
+  </div>
+
+  <div class="lcard">
+    <h3>🧩 Product vs. Marketing vs. Growth vs. GTM</h3>
+    <div class="hl"><strong>Product</strong> — What you build. Makes the thing people want to use.</div>
+    <div class="hl2"><strong style="color:var(--accent2)">Marketing</strong> — Creates awareness and desire. Makes people want to try it.</div>
+    <div class="hl3"><strong style="color:#34d399">Growth</strong> — The bridge. Uses data + experiments to get more people to the "aha moment" faster.</div>
+    <p style="margin-top:8px"><strong style="color:#fff">GTM (Go-to-Market)</strong> = the plan for bringing a product to its target market. Spans all three.</p>
+    <div class="callout"><div class="lbl">🎯 Your target role</div><p>Growth/GTM at an AI startup = running experiments, writing copy, analyzing funnels, launching campaigns, talking to users. Most cross-functional role at a startup.</p></div>
+  </div>
+
+  <div class="lcard">
+    <h3>🔁 Growth Loops (not funnels)</h3>
+    <p>Old-school: <strong style="color:#fff">funnels</strong> — pour in users, some convert at the bottom. Modern growth: <strong style="color:#fff">loops</strong> — each user action creates the next user.</p>
+    <div style="background:rgba(255,255,255,0.03);border-radius:9px;padding:14px;margin:9px 0;text-align:center;font-size:13px;color:var(--text2)">
+      <span style="background:rgba(124,58,237,0.18);color:#a78bfa;padding:5px 12px;border-radius:18px">Acquire</span> →
+      <span style="background:rgba(6,182,212,0.14);color:var(--accent2);padding:5px 12px;border-radius:18px">Deliver value</span> →
+      <span style="background:rgba(16,185,129,0.13);color:var(--green);padding:5px 12px;border-radius:18px">User shares</span> →
+      <span style="background:rgba(245,158,11,0.13);color:var(--orange);padding:5px 12px;border-radius:18px">New user</span> → 🔄
+    </div>
+    <div class="analogy"><div class="lbl">💡 Finance analogy</div><p>A loop is like a 100% reinvestment rate. Every VC who said "we look for defensibility" — growth loops are part of what they meant. Compounding user acquisition beats linear funnels every time.</p></div>
+  </div>
+
+  <div class="section-label" style="margin-top:20px">Case study</div>
+  <div class="cs">
+    <div class="cs-head" onclick="toggleCS('cs1')">
+      <span style="font-size:20px">🤖</span>
+      <div class="cs-title">ChatGPT — 0 to 100M users in 60 days (no ad budget)</div>
+      <span class="cs-badge">AI Case Study</span>
+      <span class="cs-tog" id="cs1-tog">▼</span>
+    </div>
+    <div class="cs-body" id="cs1-body">
+      <h4>What happened</h4>
+      <p>OpenAI launched ChatGPT Nov 30, 2022. Zero marketing budget. 5 days → 1M users. 60 days → 100M. Fastest consumer product to 100M ever (at the time).</p>
+      <h4>Growth timeline</h4>
+      <div class="chart">
+        <div class="bar-w"><div class="bar" style="height:4%"></div><div class="bar-v">1M</div><div class="bar-l">Day 5</div></div>
+        <div class="bar-w"><div class="bar" style="height:18%"></div><div class="bar-v">10M</div><div class="bar-l">Day 40</div></div>
+        <div class="bar-w"><div class="bar" style="height:100%"></div><div class="bar-v">100M</div><div class="bar-l">Day 60</div></div>
+        <div class="bar-w"><div class="bar" style="height:100%"></div><div class="bar-v">180M</div><div class="bar-l">6 mos</div></div>
+      </div>
+      <h4>Why it worked</h4>
+      <ul>
+        <li><strong style="color:#fff">Shareable outputs</strong> — every result was screenshot-worthy. Social media became a free ad channel.</li>
+        <li><strong style="color:#fff">Word-of-mouth loop</strong> — each share acquired 3–5 new users. Classic viral loop.</li>
+        <li><strong style="color:#fff">Zero friction free tier</strong> — no credit card, no setup. Classic PLG.</li>
+        <li><strong style="color:#fff">Perfect timing</strong> — market was primed, this was the first time AI felt real.</li>
+      </ul>
+      <div class="callout" style="margin-top:10px"><div class="lbl">💡 Key takeaway</div><p>ChatGPT's product outputs WERE its marketing. When your product creates shareable moments, you don't need a marketing budget.</p></div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:20px">Quick quiz</div>
+  <div class="quiz-box">
+    <h3>🧠 Module 1 Quiz</h3><div class="quiz-sub">4 questions · instant feedback</div>
+    <div class="question"><p>1. A startup has $5M ARR growing 3%/month. A competitor has $500K ARR growing 18%/month. Which should a smart VC be more excited about?</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'1','1')"><div class="dot"></div>The $5M ARR company — it's already bigger</div>
+        <div class="opt" data-c onclick="ans(this,'1','1')"><div class="dot"></div>The $500K ARR company — its growth rate compounds faster</div>
+        <div class="opt" onclick="ans(this,'1','1')"><div class="dot"></div>Depends entirely on market size</div>
+        <div class="opt" onclick="ans(this,'1','1')"><div class="dot"></div>The $5M company — less risky</div>
+      </div>
+      <div class="fb ok" id="f1-1-ok">✅ Exactly. At 18%/month, the smaller company surpasses the bigger one in ~8 months.</div>
+      <div class="fb no" id="f1-1-no">❌ Think compound interest. 18%/month = doubles every 4 months. Current size is just a snapshot.</div>
+    </div>
+    <div class="question"><p>2. What's the key difference between a funnel and a growth loop?</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'1','2')"><div class="dot"></div>Funnels are for B2B, loops for B2C</div>
+        <div class="opt" data-c onclick="ans(this,'1','2')"><div class="dot"></div>Loops are self-reinforcing — each user action creates the next user. Funnels aren't.</div>
+        <div class="opt" onclick="ans(this,'1','2')"><div class="dot"></div>Loops are cheaper to implement</div>
+        <div class="opt" onclick="ans(this,'1','2')"><div class="dot"></div>Loops only work for social products</div>
+      </div>
+      <div class="fb ok" id="f1-2-ok">✅ Right. Loops compound like reinvesting returns. Funnels are linear.</div>
+      <div class="fb no" id="f1-2-no">❌ A loop creates a self-reinforcing cycle — each user generates the next. Funnels don't do this.</div>
+    </div>
+    <div class="question"><p>3. ChatGPT's main growth driver was:</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'1','3')"><div class="dot"></div>OpenAI's massive PR team</div>
+        <div class="opt" onclick="ans(this,'1','3')"><div class="dot"></div>Paid advertising on Google and Meta</div>
+        <div class="opt" data-c onclick="ans(this,'1','3')"><div class="dot"></div>Shareable AI outputs creating a word-of-mouth loop on social media</div>
+        <div class="opt" onclick="ans(this,'1','3')"><div class="dot"></div>Celebrity endorsements</div>
+      </div>
+      <div class="fb ok" id="f1-3-ok">✅ Every screenshot on Twitter = free ad. Product outputs were the marketing.</div>
+      <div class="fb no" id="f1-3-no">❌ No ad budget. Growth came from users sharing AI-generated outputs on social.</div>
+    </div>
+    <div class="question"><p>4. GTM (Go-to-Market) refers to:</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'1','4')"><div class="dot"></div>A company's stock market listing strategy</div>
+        <div class="opt" data-c onclick="ans(this,'1','4')"><div class="dot"></div>The plan for reaching target customers — positioning, channels, and launch</div>
+        <div class="opt" onclick="ans(this,'1','4')"><div class="dot"></div>A type of paid marketing campaign</div>
+        <div class="opt" onclick="ans(this,'1','4')"><div class="dot"></div>The product roadmap</div>
+      </div>
+      <div class="fb ok" id="f1-4-ok">✅ Perfect. GTM = who's our customer, how do we reach them, what do we say, how do we convert them.</div>
+      <div class="fb no" id="f1-4-no">❌ GTM is the strategy for reaching target customers — positioning, channels, and launch plan.</div>
+    </div>
+    <div class="qresult" id="qr1"><div class="sc" id="qs1"></div><div class="msg" id="qm1"></div></div>
+  </div>
+
+  <div class="section-label" style="margin-top:20px">Apply it → Portfolio</div>
+  <div class="apply-box">
+    <h3>💼 Apply it</h3><div class="apply-sub">Pick an AI product. This is your portfolio project — you'll build a full GTM plan for it by Module 8.</div>
+    <div class="apply-prompt">Think of an AI product you use or find interesting (ChatGPT, Midjourney, Perplexity, Cursor, Notion AI, anything).<br><br>
+    <strong>1.</strong> How did you first hear about it?<br>
+    <strong>2.</strong> What was your "wow moment"?<br>
+    <strong>3.</strong> Did you share it? Why or why not?</div>
+    <textarea id="a1" placeholder="Your answer here..."></textarea><br>
+    <button class="btn-save" onclick="saveApply(1)">Save 💾</button>
+    <div class="saved-note" id="sn1">✅ Saved &amp; synced!</div>
+  </div>
+  <div class="complete-wrap">
+    <button class="btn-complete" id="bc1" onclick="completeModule(1)">✅ Complete Module 1 → Unlock Module 2</button>
+  </div>
+</div>
+<div class="module-content" id="module2">
+  <div class="mod-header"><div class="icon">📊</div><div><div class="num">Module 2</div><div class="title">The Metrics That Matter</div></div></div>
+
+  <div class="lcard">
+    <h3>🪣 AARRR — The Pirate Metrics</h3>
+    <p>Dave McClure's AARRR framework is the standard funnel for startup metrics. Every growth role uses this.</p>
+    <div class="hl"><strong>A — Acquisition</strong>: How do users find you? (SEO, ads, word of mouth, referral)</div>
+    <div class="hl2"><strong style="color:var(--accent2)">A — Activation</strong>: Do users have a good first experience? Did they reach the "aha moment"?</div>
+    <div class="hl3"><strong style="color:#34d399">R — Retention</strong>: Do users come back? This is the most important "R".</div>
+    <div class="hl"><strong>R — Revenue</strong>: Do users pay? (MRR, ARR, LTV, ARPU)</div>
+    <div class="hl2"><strong style="color:var(--accent2)">R — Referral</strong>: Do users refer others? (viral coefficient, NPS)</div>
+    <div class="analogy"><div class="lbl">💡 Finance analogy</div><p>AARRR = a fund's investment lifecycle. Acquisition = deal sourcing. Activation = due diligence &amp; close. Retention = LP relationship. Revenue = returns. Referral = getting introduced to new LPs by existing ones.</p></div>
+  </div>
+
+  <div class="lcard">
+    <h3>⭐ The North Star Metric</h3>
+    <p>Every great growth team focuses on ONE metric that best captures the value delivered to users. Everything else is a lever to move it.</p>
+    <div style="background:rgba(255,255,255,0.03);border-radius:9px;padding:14px;margin:9px 0">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px">
+        <div style="background:rgba(124,58,237,0.1);border-radius:7px;padding:9px"><div style="color:#a78bfa;font-weight:600">Airbnb</div><div style="color:var(--text2)">Nights booked</div></div>
+        <div style="background:rgba(6,182,212,0.1);border-radius:7px;padding:9px"><div style="color:var(--accent2);font-weight:600">Spotify</div><div style="color:var(--text2)">Time listening</div></div>
+        <div style="background:rgba(16,185,129,0.1);border-radius:7px;padding:9px"><div style="color:#34d399;font-weight:600">Slack</div><div style="color:var(--text2)">Messages sent</div></div>
+        <div style="background:rgba(245,158,11,0.1);border-radius:7px;padding:9px"><div style="color:var(--orange);font-weight:600">Duolingo</div><div style="color:var(--text2)">Daily active users (streaks)</div></div>
+        <div style="background:rgba(236,72,153,0.1);border-radius:7px;padding:9px"><div style="color:var(--pink);font-weight:600">Notion</div><div style="color:var(--text2)">Blocks created</div></div>
+        <div style="background:rgba(124,58,237,0.1);border-radius:7px;padding:9px"><div style="color:#a78bfa;font-weight:600">ChatGPT</div><div style="color:var(--text2)">Conversations per user</div></div>
+      </div>
+    </div>
+    <div class="callout"><div class="lbl">⚠️ Common mistake</div><p>Vanity metrics like total signups or app downloads feel good but don't predict success. A North Star must capture <em>real value delivered</em> — not just traffic.</p></div>
+  </div>
+
+  <div class="lcard">
+    <h3>🔒 Retention is Everything</h3>
+    <p>You can acquire millions of users and still fail. If they don't come back, you have a leaky bucket. Retention = product-market fit signal.</p>
+    <p><strong style="color:#fff">The retention curve</strong>: Plot % of users who return each week/month. If it flattens above 0%, you have retention. If it hits 0%, you don't.</p>
+    <div class="analogy"><div class="lbl">💡 Finance analogy</div><p>Retention = portfolio duration. LTV (Lifetime Value) is the DCF of a customer relationship. High retention = long duration asset. Low retention = you're constantly paying to refill a leaky bucket — like a fund with no LP lock-up that has constant redemptions.</p></div>
+    <div class="stat-row">
+      <div class="stat"><div class="v" style="color:var(--red)">5%</div><div class="l">Improve retention → 25–95% more profit (Bain study)</div></div>
+      <div class="stat"><div class="v" style="color:var(--green)">DAU/MAU</div><div class="l">Ratio = engagement health (40%+ = excellent)</div></div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:20px">Case study</div>
+  <div class="cs">
+    <div class="cs-head" onclick="toggleCS('cs2')">
+      <span style="font-size:20px">🦉</span>
+      <div class="cs-title">Duolingo — How streaks became a North Star (and saved the company)</div>
+      <span class="cs-badge">Retention Case Study</span>
+      <span class="cs-tog" id="cs2-tog">▼</span>
+    </div>
+    <div class="cs-body" id="cs2-body">
+      <h4>The problem</h4>
+      <p>Duolingo had millions of downloads but terrible retention. Users signed up, did one lesson, and never came back. Downloads was a vanity metric masking a broken product.</p>
+      <h4>The insight</h4>
+      <p>Their growth team discovered that users who built a <strong style="color:#fff">streak of 3+ days</strong> had dramatically higher long-term retention. The streak became emotionally motivating — people didn't want to break it.</p>
+      <h4>What they did</h4>
+      <ul>
+        <li>Made streaks the centerpiece of the app UI — visible, celebrated</li>
+        <li>Added "streak freeze" (streak protection when you miss a day) — reduces anxiety without breaking behavior</li>
+        <li>Push notifications: "Your streak is in danger! 🔥" — highly effective re-engagement</li>
+        <li>Weekly leaderboards tied to streak performance</li>
+      </ul>
+      <h4>Results</h4>
+      <p>DAU grew from ~5M to 40M+ over 5 years. Duolingo went public in 2021 at a $5.7B valuation. Retention-driven growth.</p>
+      <div class="callout" style="margin-top:10px"><div class="lbl">💡 Key takeaway</div><p>The right North Star metric (DAU driven by streaks, not just downloads) changed everything. Measure what creates real value, not what looks good in a deck.</p></div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:20px">Quick quiz</div>
+  <div class="quiz-box">
+    <h3>🧠 Module 2 Quiz</h3><div class="quiz-sub">4 questions · instant feedback</div>
+    <div class="question"><p>1. In AARRR, which "R" do most growth experts consider the most important?</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'2','1')"><div class="dot"></div>Revenue — it's what keeps the company alive</div>
+        <div class="opt" onclick="ans(this,'2','1')"><div class="dot"></div>Referral — viral growth is everything</div>
+        <div class="opt" data-c onclick="ans(this,'2','1')"><div class="dot"></div>Retention — if users don't come back, everything else is wasted</div>
+        <div class="opt" onclick="ans(this,'2','1')"><div class="dot"></div>Acquisition — you need users first</div>
+      </div>
+      <div class="fb ok" id="f2-1-ok">✅ Exactly. Retention is PMF signal. Acquiring users who churn = pouring water into a leaky bucket.</div>
+      <div class="fb no" id="f2-1-no">❌ Retention is #1. Without it, you're just refilling a leaky bucket — no matter how much you spend on acquisition.</div>
+    </div>
+    <div class="question"><p>2. What makes a good North Star Metric?</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'2','2')"><div class="dot"></div>It should be the highest number possible (e.g. total pageviews)</div>
+        <div class="opt" data-c onclick="ans(this,'2','2')"><div class="dot"></div>It captures the real value delivered to users, not just traffic or signups</div>
+        <div class="opt" onclick="ans(this,'2','2')"><div class="dot"></div>It should be revenue — that's what matters most</div>
+        <div class="opt" onclick="ans(this,'2','2')"><div class="dot"></div>Every team should have its own separate North Star</div>
+      </div>
+      <div class="fb ok" id="f2-2-ok">✅ Right. Vanity metrics feel good but don't predict success. NSM must reflect real user value.</div>
+      <div class="fb no" id="f2-2-no">❌ Total pageviews or signups are vanity metrics. A North Star must capture real value delivered — not just activity.</div>
+    </div>
+    <div class="question"><p>3. Duolingo's core retention mechanic was:</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'2','3')"><div class="dot"></div>Paid advertising reminders</div>
+        <div class="opt" onclick="ans(this,'2','3')"><div class="dot"></div>Celebrity language teachers</div>
+        <div class="opt" data-c onclick="ans(this,'2','3')"><div class="dot"></div>Streaks — creating emotional investment in not breaking a daily chain</div>
+        <div class="opt" onclick="ans(this,'2','3')"><div class="dot"></div>Gamified leaderboards only</div>
+      </div>
+      <div class="fb ok" id="f2-3-ok">✅ Yes! Streaks = emotional lock-in. Loss aversion (not wanting to break the streak) is more powerful than any push notification.</div>
+      <div class="fb no" id="f2-3-no">❌ Streaks were the secret. People don't want to break a chain they've built — that's behavioral retention design.</div>
+    </div>
+    <div class="question"><p>4. DAU/MAU ratio measures:</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'2','4')"><div class="dot"></div>Revenue per user</div>
+        <div class="opt" data-c onclick="ans(this,'2','4')"><div class="dot"></div>Engagement depth — how often monthly users actually use the product daily</div>
+        <div class="opt" onclick="ans(this,'2','4')"><div class="dot"></div>New user growth rate</div>
+        <div class="opt" onclick="ans(this,'2','4')"><div class="dot"></div>App store rating correlation</div>
+      </div>
+      <div class="fb ok" id="f2-4-ok">✅ Correct. 40%+ DAU/MAU means your product is genuinely habit-forming. Facebook is ~65%, WhatsApp ~85%.</div>
+      <div class="fb no" id="f2-4-no">❌ DAU/MAU = how often monthly users return daily. It's the stickiness score. 40%+ is excellent.</div>
+    </div>
+    <div class="qresult" id="qr2"><div class="sc" id="qs2"></div><div class="msg" id="qm2"></div></div>
+  </div>
+
+  <div class="section-label" style="margin-top:20px">Apply it → Portfolio</div>
+  <div class="apply-box">
+    <h3>📊 Apply it</h3><div class="apply-sub">For the AI product you chose in Module 1:</div>
+    <div class="apply-prompt">
+    <strong>1.</strong> What would be the North Star Metric? (what single number best captures value delivered to users?)<br>
+    <strong>2.</strong> Map out 3 key metrics across AARRR for this product. What would you measure at each stage?<br>
+    <strong>3.</strong> What does "retained" mean for this product? (Daily? Weekly? What action = returning?)
+    </div>
+    <textarea id="a2" placeholder="Your answer here..."></textarea><br>
+    <button class="btn-save" onclick="saveApply(2)">Save 💾</button>
+    <div class="saved-note" id="sn2">✅ Saved &amp; synced!</div>
+  </div>
+  <div class="complete-wrap">
+    <button class="btn-complete" id="bc2" onclick="completeModule(2)">✅ Complete Module 2 → Unlock Module 3</button>
+  </div>
+</div>
+<div class="module-content" id="module3">
+  <div class="mod-header"><div class="icon">🔄</div><div><div class="num">Module 3</div><div class="title">Product-Led Growth (PLG)</div></div></div>
+
+  <div class="lcard">
+    <h3>🏃 PLG vs Sales-Led Growth (SLG)</h3>
+    <p>Two fundamentally different ways to grow. Most AI startups today choose PLG — and for good reason.</p>
+    <div class="hl2"><strong style="color:var(--accent2)">PLG (Product-Led)</strong>: The product sells itself. Free tier → users find value → upgrade → invite teammates. Low CAC, scales infinitely.</div>
+    <div class="hl"><strong>SLG (Sales-Led)</strong>: Salespeople sell the product. SDRs, demos, contracts, procurement. High CAC, doesn't scale, but works for enterprise.</div>
+    <div class="analogy"><div class="lbl">💡 Finance analogy</div><p>PLG = passive index investing — low cost, compounding returns, scales automatically. SLG = active management — high-touch, expensive, but sometimes necessary for large allocations (enterprise deals). Most early startups should start PLG, like most investors should start passive.</p></div>
+    <div class="stat-row">
+      <div class="stat"><div class="v" style="color:var(--green)">$1.18</div><div class="l">CAC of PLG vs $1.14 for SLG (but PLG scales)</div></div>
+      <div class="stat"><div class="v" style="color:var(--accent2)">58%</div><div class="l">of SaaS companies now use PLG (OpenView 2023)</div></div>
+    </div>
+  </div>
+
+  <div class="lcard">
+    <h3>⚡ The "Aha Moment" — most critical concept in PLG</h3>
+    <p>The "aha moment" is the specific instant a user first experiences your product's core value. Everything in PLG is optimized to get users there as fast as possible.</p>
+    <div style="background:rgba(255,255,255,0.03);border-radius:9px;padding:14px;margin:9px 0;font-size:13px">
+      <div style="margin-bottom:8px"><span style="color:#a78bfa;font-weight:600">Slack:</span> <span style="color:var(--text2)">First time a team sends 2,000 messages together</span></div>
+      <div style="margin-bottom:8px"><span style="color:var(--accent2);font-weight:600">Dropbox:</span> <span style="color:var(--text2)">First time a file syncs across two devices</span></div>
+      <div style="margin-bottom:8px"><span style="color:#34d399;font-weight:600">Figma:</span> <span style="color:var(--text2)">First time you see someone else's cursor in your file</span></div>
+      <div><span style="color:var(--orange);font-weight:600">ChatGPT:</span> <span style="color:var(--text2)">First output that makes you say "wait, it actually understands me"</span></div>
+    </div>
+    <div class="callout"><div class="lbl">🎯 Growth PM's job</div><p>Map the user journey. Find the aha moment. Remove every step between sign-up and that moment. Shorten time-to-wow from days → minutes → seconds.</p></div>
+  </div>
+
+  <div class="lcard">
+    <h3>🔧 PLG Tactics for AI Products</h3>
+    <div class="hl2"><strong style="color:var(--accent2)">Freemium</strong>: Give enough value free to hook users, charge for power features. (ChatGPT free → $20/mo Plus)</div>
+    <div class="hl"><strong>Viral sharing</strong>: Build share buttons into outputs. Loom videos, Figma links, Midjourney images all carry the brand when shared.</div>
+    <div class="hl3"><strong style="color:#34d399">Usage-based pricing</strong>: Charge per API call, per image, per seat. Low barrier to start, scales with value.</div>
+    <div class="hl2"><strong style="color:var(--accent2)">In-product upgrade nudges</strong>: Show the premium feature, blur it, let them touch it. "You've used 80% of your free credits."</div>
+  </div>
+
+  <div class="section-label" style="margin-top:20px">Case study</div>
+  <div class="cs">
+    <div class="cs-head" onclick="toggleCS('cs3')">
+      <span style="font-size:20px">🎨</span>
+      <div class="cs-title">Figma — How PLG ate Adobe's lunch</div>
+      <span class="cs-badge">PLG Case Study</span>
+      <span class="cs-tog" id="cs3-tog">▼</span>
+    </div>
+    <div class="cs-body" id="cs3-body">
+      <h4>The situation (2012)</h4>
+      <p>Adobe had a near-monopoly on design tools. Photoshop and Illustrator required expensive licenses, desktop installs, and were impenetrable to non-designers. Sharing files was a nightmare.</p>
+      <h4>Figma's PLG strategy</h4>
+      <ul>
+        <li><strong style="color:#fff">Free forever tier</strong> — designers could use Figma with no credit card, no install, no IT approval</li>
+        <li><strong style="color:#fff">Real-time collaboration</strong> — the aha moment was seeing another cursor move in your file. It spread virally within design teams</li>
+        <li><strong style="color:#fff">Shareable links</strong> — every Figma file could be shared via URL. Developers, PMs, and clients got exposure to Figma just by clicking a link</li>
+        <li><strong style="color:#fff">Bottom-up expansion</strong> — one designer adopts Figma → shares with team → team adopts → company buys enterprise plan</li>
+      </ul>
+      <h4>The result</h4>
+      <p>Adobe acquired Figma in 2022 for $20B — the largest design software acquisition ever. The deal was blocked by regulators, but the valuation was real. PLG won.</p>
+      <div class="callout" style="margin-top:10px"><div class="lbl">💡 Key takeaway</div><p>Figma's product was designed to spread. Every shared file was a demo. Every new collaborator was a potential customer. The product did the selling.</p></div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:20px">Quick quiz</div>
+  <div class="quiz-box">
+    <h3>🧠 Module 3 Quiz</h3><div class="quiz-sub">4 questions · instant feedback</div>
+    <div class="question"><p>1. What's the main advantage of PLG over sales-led growth for early-stage AI startups?</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'3','1')"><div class="dot"></div>Sales teams can always be hired later</div>
+        <div class="opt" data-c onclick="ans(this,'3','1')"><div class="dot"></div>PLG scales without proportionally increasing headcount or CAC</div>
+        <div class="opt" onclick="ans(this,'3','1')"><div class="dot"></div>PLG works better for enterprise customers</div>
+        <div class="opt" onclick="ans(this,'3','1')"><div class="dot"></div>PLG requires less product investment</div>
+      </div>
+      <div class="fb ok" id="f3-1-ok">✅ Exactly. PLG lets you grow users without hiring an army of salespeople. The product scales, humans don't.</div>
+      <div class="fb no" id="f3-1-no">❌ PLG's power is that it scales without proportional cost increases. Every new user doesn't require a sales call.</div>
+    </div>
+    <div class="question"><p>2. The "aha moment" in Figma's PLG strategy was:</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'3','2')"><div class="dot"></div>When users saw how much cheaper it was than Adobe</div>
+        <div class="opt" onclick="ans(this,'3','2')"><div class="dot"></div>When users watched a tutorial video</div>
+        <div class="opt" data-c onclick="ans(this,'3','2')"><div class="dot"></div>Seeing another person's cursor moving in your design file in real-time</div>
+        <div class="opt" onclick="ans(this,'3','2')"><div class="dot"></div>When Figma was featured in TechCrunch</div>
+      </div>
+      <div class="fb ok" id="f3-2-ok">✅ Right. Real-time collaboration was Figma's magic moment — nothing else in design did that. It spread virally.</div>
+      <div class="fb no" id="f3-2-no">❌ The aha moment was seeing live collaboration — another cursor moving in your file. That was the viral hook.</div>
+    </div>
+    <div class="question"><p>3. Which metric best signals that a PLG product has found its aha moment?</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'3','3')"><div class="dot"></div>Total downloads</div>
+        <div class="opt" onclick="ans(this,'3','3')"><div class="dot"></div>App store rating</div>
+        <div class="opt" data-c onclick="ans(this,'3','3')"><div class="dot"></div>Activation rate — % of new users who reach the aha moment within first session</div>
+        <div class="opt" onclick="ans(this,'3','3')"><div class="dot"></div>Revenue per employee</div>
+      </div>
+      <div class="fb ok" id="f3-3-ok">✅ Activation rate is the PLG metric. If users aren't reaching the aha moment, no amount of acquisition helps.</div>
+      <div class="fb no" id="f3-3-no">❌ Activation rate = % reaching the aha moment. Downloads are vanity. Did they actually experience value? That's what matters.</div>
+    </div>
+    <div class="question"><p>4. Figma's bottom-up growth motion means:</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'3','4')"><div class="dot"></div>They started with the cheapest price tier</div>
+        <div class="opt" data-c onclick="ans(this,'3','4')"><div class="dot"></div>Individual users adopt first, which pulls in teams, which grows into company-wide deals</div>
+        <div class="opt" onclick="ans(this,'3','4')"><div class="dot"></div>They focused on small companies before enterprises</div>
+        <div class="opt" onclick="ans(this,'3','4')"><div class="dot"></div>Marketing campaigns targeting junior employees</div>
+      </div>
+      <div class="fb ok" id="f3-4-ok">✅ Classic PLG expansion: individual → team → department → enterprise. No salespeople needed until the very end.</div>
+      <div class="fb no" id="f3-4-no">❌ Bottom-up = product spreads through individual users who bring in teams. No top-down enterprise sale needed to start.</div>
+    </div>
+    <div class="qresult" id="qr3"><div class="sc" id="qs3"></div><div class="msg" id="qm3"></div></div>
+  </div>
+
+  <div class="section-label" style="margin-top:20px">Apply it → Portfolio</div>
+  <div class="apply-box">
+    <h3>🔄 Apply it</h3><div class="apply-sub">For your chosen AI product:</div>
+    <div class="apply-prompt">
+    <strong>1.</strong> Is this product PLG, SLG, or hybrid? How do users currently discover and adopt it?<br>
+    <strong>2.</strong> What is the "aha moment"? How long does it currently take a new user to get there?<br>
+    <strong>3.</strong> If you were a growth PM here, what would you do to shorten time-to-aha by 50%?
+    </div>
+    <textarea id="a3" placeholder="Your answer here..."></textarea><br>
+    <button class="btn-save" onclick="saveApply(3)">Save 💾</button>
+    <div class="saved-note" id="sn3">✅ Saved &amp; synced!</div>
+  </div>
+  <div class="complete-wrap">
+    <button class="btn-complete" id="bc3" onclick="completeModule(3)">✅ Complete Module 3 → Unlock Module 4</button>
+  </div>
+</div>
+<div class="module-content" id="module4">
+  <div class="mod-header"><div class="icon">🗺️</div><div><div class="num">Module 4</div><div class="title">Go-to-Market (GTM)</div></div></div>
+
+  <div class="lcard">
+    <h3>🎯 ICP — Ideal Customer Profile</h3>
+    <p>The #1 GTM mistake: trying to sell to everyone. The most successful AI startups start with a brutally specific ICP and expand from there.</p>
+    <div class="hl2"><strong style="color:var(--accent2)">Bad ICP:</strong> "SMBs who need productivity tools"</div>
+    <div class="hl3"><strong style="color:#34d399">Good ICP:</strong> "Early-stage B2B SaaS founders, 5-30 employees, using Notion + Linear, frustrated that their CRM doesn't integrate with their dev tools, spending 4+ hours/week on manual status updates"</div>
+    <p>The more specific, the better your messaging, the better your channels, the better your conversion.</p>
+    <div class="analogy"><div class="lbl">💡 Finance analogy</div><p>ICP = target asset class. A good allocator doesn't "invest in everything." They pick a specific category (private credit, growth equity, VC) and go deep. Trying to serve every customer = a fund with no investment thesis = mediocre returns everywhere.</p></div>
+    <p>Key ICP dimensions: <strong style="color:#fff">Job title, company size, industry, tech stack, pain point, budget authority, buying trigger</strong></p>
+  </div>
+
+  <div class="lcard">
+    <h3>🗣️ Positioning</h3>
+    <p>Positioning is how you carve out a unique place in the customer's mind relative to alternatives. Not your features — your <em>story</em>.</p>
+    <div class="hl"><strong>The positioning formula:</strong> "For [ICP], [Product] is the only [category] that [key benefit] because [reason to believe]."</div>
+    <p style="margin-top:10px">Example — Perplexity AI: <em>"For researchers and knowledge workers, Perplexity is the only AI search engine that gives you cited, real-time answers instead of making you verify sources yourself."</em></p>
+    <div class="callout"><div class="lbl">⚡ Category design vs category entry</div><p><strong style="color:#fff">Category entry</strong>: "We're like [existing product] but better." (Safer but crowded)<br><strong style="color:#fff">Category design</strong>: "We invented a new category." (Risky but creates a monopoly — think Salesforce inventing "CRM cloud")</p></div>
+  </div>
+
+  <div class="lcard">
+    <h3>📡 Channel Strategy</h3>
+    <p>Channels = how you reach your ICP. Not all channels are equal. Match your channel to where your ICP actually spends time.</p>
+    <div class="hl3"><strong style="color:#34d399">Owned channels</strong>: Content/blog, email list, community, app. You control them, they compound. Slow to build, zero marginal cost.</div>
+    <div class="hl2"><strong style="color:var(--accent2)">Earned channels</strong>: Press/PR, word of mouth, SEO rankings, influencer mentions. Hard to get, but hugely credible.</div>
+    <div class="hl"><strong>Paid channels</strong>: Google/Meta/LinkedIn ads, sponsorships, influencer paid deals. Fast to start, stops when you stop paying. High CAC.</div>
+    <div class="analogy"><div class="lbl">💡 Finance analogy</div><p>Owned = bonds (steady, reliable income). Earned = real estate (appreciates over time, creates passive returns). Paid = active trading (works while you're at the desk, stops when you log off). A good GTM strategy diversifies across all three.</p></div>
+  </div>
+
+  <div class="section-label" style="margin-top:20px">Case study</div>
+  <div class="cs">
+    <div class="cs-head" onclick="toggleCS('cs4')">
+      <span style="font-size:20px">⚡</span>
+      <div class="cs-title">Linear — Positioning against Jira with developer-first GTM</div>
+      <span class="cs-badge">GTM Case Study</span>
+      <span class="cs-tog" id="cs4-tog">▼</span>
+    </div>
+    <div class="cs-body" id="cs4-body">
+      <h4>The market in 2019</h4>
+      <p>Jira dominated project management for engineering teams. It was powerful but notoriously slow, complex, and disliked by developers. Atlassian had a sales-first, top-down GTM.</p>
+      <h4>Linear's ICP and positioning</h4>
+      <p>Linear targeted a hyper-specific ICP: <strong style="color:#fff">senior engineers and CTOs at fast-growing tech startups who valued speed and design</strong>. Their positioning: "Project management built for the speed of thought."</p>
+      <h4>Their GTM playbook</h4>
+      <ul>
+        <li><strong style="color:#fff">Developer-first</strong>: Released keyboard shortcuts, CLI tools, GitHub integration on day one. Won over power users who convinced their teams.</li>
+        <li><strong style="color:#fff">Design as signal</strong>: Made the most beautiful project management tool ever built. Design-conscious engineers shared it on Twitter constantly.</li>
+        <li><strong style="color:#fff">Invite-only waitlist</strong>: Created exclusivity and FOMO. Engineers wanted to be early. Twitter buzz drove the waitlist to 50K.</li>
+        <li><strong style="color:#fff">Bottom-up PLG</strong>: Free tier for small teams. One engineer adopts → convinces team → company pays.</li>
+      </ul>
+      <h4>Result</h4>
+      <p>Linear reached a $400M+ valuation with a tiny team and no traditional sales motion. Word of mouth from developers was their primary channel.</p>
+      <div class="callout" style="margin-top:10px"><div class="lbl">💡 Key takeaway</div><p>Razor-sharp ICP + positioning that resonated with a passionate niche (senior devs who hated Jira) + channels those users actually use (Twitter, GitHub) = GTM that worked without a sales team.</p></div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:20px">Quick quiz</div>
+  <div class="quiz-box">
+    <h3>🧠 Module 4 Quiz</h3><div class="quiz-sub">4 questions · instant feedback</div>
+    <div class="question"><p>1. Why do successful AI startups start with a very specific ICP instead of targeting broadly?</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'4','1')"><div class="dot"></div>Broad targeting reaches more people initially</div>
+        <div class="opt" data-c onclick="ans(this,'4','1')"><div class="dot"></div>Specificity enables better messaging, higher conversion, and word of mouth within a tight community</div>
+        <div class="opt" onclick="ans(this,'4','1')"><div class="dot"></div>Specific ICPs have bigger budgets</div>
+        <div class="opt" onclick="ans(this,'4','1')"><div class="dot"></div>Investors prefer specific ICPs in pitch decks</div>
+      </div>
+      <div class="fb ok" id="f4-1-ok">✅ Right. Specificity = resonance. "This product is exactly for me" > "This product is for everyone." Tight communities spread word of mouth faster too.</div>
+      <div class="fb no" id="f4-1-no">❌ Broad targeting dilutes your message. Specificity lets you speak directly to a person's exact pain — far higher conversion.</div>
+    </div>
+    <div class="question"><p>2. Linear's GTM worked because:</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'4','2')"><div class="dot"></div>They had a huge sales team targeting enterprise buyers</div>
+        <div class="opt" data-c onclick="ans(this,'4','2')"><div class="dot"></div>They targeted a passionate niche (senior devs who hated Jira) through channels those devs used (Twitter, GitHub)</div>
+        <div class="opt" onclick="ans(this,'4','2')"><div class="dot"></div>They undercut Jira on price</div>
+        <div class="opt" onclick="ans(this,'4','2')"><div class="dot"></div>They got acquired by Atlassian</div>
+      </div>
+      <div class="fb ok" id="f4-2-ok">✅ Perfect. Niche + right channel + word of mouth within that niche = PLG GTM that scaled without sales.</div>
+      <div class="fb no" id="f4-2-no">❌ Linear used no traditional sales. They won by targeting passionate senior devs where they lived (Twitter, GitHub) with a product that visibly delighted them.</div>
+    </div>
+    <div class="question"><p>3. Which channel type stops working the moment you stop paying?</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'4','3')"><div class="dot"></div>SEO and content</div>
+        <div class="opt" onclick="ans(this,'4','3')"><div class="dot"></div>Word of mouth</div>
+        <div class="opt" data-c onclick="ans(this,'4','3')"><div class="dot"></div>Paid advertising (Google, Meta, LinkedIn)</div>
+        <div class="opt" onclick="ans(this,'4','3')"><div class="dot"></div>Community and email lists</div>
+      </div>
+      <div class="fb ok" id="f4-3-ok">✅ Exactly. Paid traffic disappears the moment the budget stops. It's renting attention, not owning it.</div>
+      <div class="fb no" id="f4-3-no">❌ Paid ads stop the second you pause spend. Content, community, and word-of-mouth continue working without ongoing investment.</div>
+    </div>
+    <div class="question"><p>4. The positioning formula "For [ICP], [Product] is the only [category] that [benefit] because [reason]" is useful because:</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'4','4')"><div class="dot"></div>It's required by investors</div>
+        <div class="opt" onclick="ans(this,'4','4')"><div class="dot"></div>It guarantees PR coverage</div>
+        <div class="opt" data-c onclick="ans(this,'4','4')"><div class="dot"></div>It forces you to define who you're for, what makes you unique, and why they should believe you</div>
+        <div class="opt" onclick="ans(this,'4','4')"><div class="dot"></div>It replaces the need for a brand voice</div>
+      </div>
+      <div class="fb ok" id="f4-4-ok">✅ Right. A clear positioning statement aligns your team, sharpens your messaging, and makes all GTM decisions easier.</div>
+      <div class="fb no" id="f4-4-no">❌ The formula forces clarity on who you serve, what makes you different, and why users should believe you. That clarity drives everything else.</div>
+    </div>
+    <div class="qresult" id="qr4"><div class="sc" id="qs4"></div><div class="msg" id="qm4"></div></div>
+  </div>
+
+  <div class="section-label" style="margin-top:20px">Apply it → Portfolio</div>
+  <div class="apply-box">
+    <h3>🗺️ Apply it</h3><div class="apply-sub">For your chosen AI product:</div>
+    <div class="apply-prompt">
+    <strong>1.</strong> Write a specific ICP for this product. Include: job title, company size, pain point, buying trigger.<br>
+    <strong>2.</strong> Write a positioning statement using the formula: "For [ICP], [Product] is the only [category] that [benefit] because [reason to believe]."<br>
+    <strong>3.</strong> Name 2 owned, 1 earned, and 1 paid channel you'd prioritize for this product.
+    </div>
+    <textarea id="a4" placeholder="Your answer here..."></textarea><br>
+    <button class="btn-save" onclick="saveApply(4)">Save 💾</button>
+    <div class="saved-note" id="sn4">✅ Saved &amp; synced!</div>
+  </div>
+  <div class="complete-wrap">
+    <button class="btn-complete" id="bc4" onclick="completeModule(4)">✅ Complete Module 4 → Unlock Module 5</button>
+  </div>
+</div>
+<div class="module-content" id="module5">
+  <div class="mod-header"><div class="icon">✍️</div><div><div class="num">Module 5</div><div class="title">Content, SEO &amp; Organic Flywheels</div></div></div>
+
+  <div class="lcard">
+    <h3>📈 Content as a Compounding Asset</h3>
+    <p>Paid ads stop the moment you stop paying. Content keeps working for years. It's the closest thing to a passive income stream in marketing.</p>
+    <div class="stat-row">
+      <div class="stat"><div class="v" style="color:var(--green)">80%</div><div class="l">HubSpot's traffic comes from posts 2+ years old</div></div>
+      <div class="stat"><div class="v" style="color:var(--accent2)">6-12 mo</div><div class="l">Typical time for a blog post to rank on Google</div></div>
+    </div>
+    <div class="analogy"><div class="lbl">💡 Finance analogy</div><p>Paid ads = renting office space (monthly cost, gone when lease ends). Content = buying the building (upfront investment, but you own an asset that appreciates). Every article you publish is a new asset that generates returns over time. Content compounds like a long-duration bond.</p></div>
+    <div class="callout"><div class="lbl">🎯 AI company content opportunity</div><p>Most AI companies are too focused on product to build content. The ones that do — Midjourney's tutorials, Anthropic's research blog, Perplexity's use case guides — own massive organic channels competitors can't easily replicate.</p></div>
+  </div>
+
+  <div class="lcard">
+    <h3>🔍 SEO for AI Products — the Practical Version</h3>
+    <p>SEO = getting Google to send you free users by ranking high for search terms your ICP types.</p>
+    <div class="hl2"><strong style="color:var(--accent2)">Use case pages</strong>: "AI for [specific job to be done]" — e.g. "AI for legal contract review", "AI for sales email writing". High intent, low competition.</div>
+    <div class="hl"><strong>Comparison pages</strong>: "[Your product] vs [competitor]" — users in buying mode search these. High conversion.</div>
+    <div class="hl3"><strong style="color:#34d399">Glossary &amp; definition pages</strong>: "What is [AI term]?" — captures top-of-funnel, brand awareness. Drives newsletter signups.</div>
+    <div class="hl2"><strong style="color:var(--accent2)">Integration pages</strong>: "[Your product] + [popular tool]" — e.g. "Notion AI for Slack teams". Captures users of adjacent tools.</div>
+    <p style="margin-top:8px">Key insight: <strong style="color:#fff">search intent &gt; keyword volume</strong>. A high-intent term with 100 searches/month beats a vanity term with 100K searches where no one is buying.</p>
+  </div>
+
+  <div class="lcard">
+    <h3>🔁 The Content Flywheel</h3>
+    <p>A flywheel builds momentum over time. Each rotation is faster than the last.</p>
+    <div style="background:rgba(255,255,255,0.03);border-radius:9px;padding:14px;margin:9px 0;text-align:center;font-size:13px;color:var(--text2)">
+      <span style="color:#a78bfa">Publish content</span> → <span style="color:var(--accent2)">Rank on Google</span> → <span style="color:#34d399">Traffic grows</span> → <span style="color:var(--orange)">Leads → customers</span> → <span style="color:var(--pink)">Customer stories &amp; case studies</span> → <span style="color:#a78bfa">More content to publish</span> → 🔄
+    </div>
+    <p>HubSpot built a $20B company almost entirely on this flywheel. They published 500+ blog posts/month at peak. Their blog now gets 7M+ visits/month with no paid acquisition.</p>
+  </div>
+
+  <div class="section-label" style="margin-top:20px">Case study</div>
+  <div class="cs">
+    <div class="cs-head" onclick="toggleCS('cs5')">
+      <span style="font-size:20px">📝</span>
+      <div class="cs-title">Notion — How templates became an SEO army</div>
+      <span class="cs-badge">Content SEO Case Study</span>
+      <span class="cs-tog" id="cs5-tog">▼</span>
+    </div>
+    <div class="cs-body" id="cs5-body">
+      <h4>The insight</h4>
+      <p>Notion realized their users were building templates — meeting agendas, project trackers, OKR frameworks, reading lists. Each template was a potential SEO asset targeting a specific search query.</p>
+      <h4>What they built</h4>
+      <ul>
+        <li><strong style="color:#fff">Template gallery</strong>: 10,000+ templates, each optimized for a specific use case. "Notion project management template", "Notion CRM template", "Notion weekly review template" — each ranking for its own keyword.</li>
+        <li><strong style="color:#fff">User-generated content at scale</strong>: Community members created templates. Notion just needed to curate and publish them. Zero marginal cost.</li>
+        <li><strong style="color:#fff">SEO moat</strong>: 50,000+ pages indexed by Google, each targeting a long-tail keyword. Competitors can't easily replicate years of accumulated SEO.</li>
+      </ul>
+      <h4>The result</h4>
+      <p>Notion gets millions of organic visits per month from template searches alone. Users searching for "productivity template" find Notion, create an account, and get hooked — all without a paid ad.</p>
+      <div class="callout" style="margin-top:10px"><div class="lbl">💡 Key takeaway</div><p>Notion turned user creativity into an SEO army. Your users' outputs can be your content. Think: what does your product create that could rank on Google?</p></div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:20px">Quick quiz</div>
+  <div class="quiz-box">
+    <h3>🧠 Module 5 Quiz</h3><div class="quiz-sub">4 questions · instant feedback</div>
+    <div class="question"><p>1. Why does HubSpot still get traffic from blog posts written 5+ years ago?</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'5','1')"><div class="dot"></div>They pay to keep old posts in search results</div>
+        <div class="opt" data-c onclick="ans(this,'5','1')"><div class="dot"></div>Content compounds — SEO authority and backlinks accumulate over time, keeping old posts ranked</div>
+        <div class="opt" onclick="ans(this,'5','1')"><div class="dot"></div>Google favors old content automatically</div>
+        <div class="opt" onclick="ans(this,'5','1')"><div class="dot"></div>They rewrite every post monthly</div>
+      </div>
+      <div class="fb ok" id="f5-1-ok">✅ Right. Content is a long-duration asset. Backlinks, authority, and indexing accumulate. Old posts can be your best performers.</div>
+      <div class="fb no" id="f5-1-no">❌ Content compounds because links and authority build over time. A well-written post from 5 years ago may have 500 sites linking to it by now.</div>
+    </div>
+    <div class="question"><p>2. For an AI product, which content type typically has the highest conversion rate?</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'5','2')"><div class="dot"></div>"What is AI?" explainer articles</div>
+        <div class="opt" onclick="ans(this,'5','2')"><div class="dot"></div>Company news and press releases</div>
+        <div class="opt" data-c onclick="ans(this,'5','2')"><div class="dot"></div>"[Product] vs [Competitor]" comparison pages</div>
+        <div class="opt" onclick="ans(this,'5','2')"><div class="dot"></div>Social media posts</div>
+      </div>
+      <div class="fb ok" id="f5-2-ok">✅ Exactly. People searching "[X] vs [Y]" are actively in buying mode. These pages convert at 5-10x compared to top-of-funnel content.</div>
+      <div class="fb no" id="f5-2-no">❌ Comparison searches = buying intent. Someone searching "Cursor vs GitHub Copilot" is about to make a purchase decision. High conversion.</div>
+    </div>
+    <div class="question"><p>3. Notion's SEO strategy was clever because:</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'5','3')"><div class="dot"></div>They hired 500 content writers</div>
+        <div class="opt" data-c onclick="ans(this,'5','3')"><div class="dot"></div>They turned user-created templates into thousands of SEO pages at near-zero marginal cost</div>
+        <div class="opt" onclick="ans(this,'5','3')"><div class="dot"></div>They paid influencers to link to their blog</div>
+        <div class="opt" onclick="ans(this,'5','3')"><div class="dot"></div>They optimized only for broad keywords like "productivity"</div>
+      </div>
+      <div class="fb ok" id="f5-3-ok">✅ Brilliant leverage. Users create the content. Notion gets the SEO. Zero marginal cost per template page.</div>
+      <div class="fb no" id="f5-3-no">❌ Notion's leverage was UGC (user-generated content). Users built templates, Notion indexed them. Thousands of long-tail keyword pages at zero cost.</div>
+    </div>
+    <div class="question"><p>4. In search intent strategy, what beats high keyword volume?</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'5','4')"><div class="dot"></div>Having a verified Google business profile</div>
+        <div class="opt" onclick="ans(this,'5','4')"><div class="dot"></div>Publishing more frequently than competitors</div>
+        <div class="opt" data-c onclick="ans(this,'5','4')"><div class="dot"></div>High buying intent — a 100-search/month term from people ready to buy beats a 100K-search term from browsers</div>
+        <div class="opt" onclick="ans(this,'5','4')"><div class="dot"></div>Shorter blog posts rank higher</div>
+      </div>
+      <div class="fb ok" id="f5-4-ok">✅ Intent > volume. 100 people searching "best AI code review tool for TypeScript teams" are worth more than 10,000 searching "what is AI."</div>
+      <div class="fb no" id="f5-4-no">❌ Buying intent beats raw volume. A small number of high-intent searches convert at 10-50x better than broad, informational searches.</div>
+    </div>
+    <div class="qresult" id="qr5"><div class="sc" id="qs5"></div><div class="msg" id="qm5"></div></div>
+  </div>
+
+  <div class="section-label" style="margin-top:20px">Apply it → Portfolio</div>
+  <div class="apply-box">
+    <h3>✍️ Apply it</h3><div class="apply-sub">For your chosen AI product:</div>
+    <div class="apply-prompt">
+    <strong>1.</strong> Name 3 specific blog post or content ideas that would drive high-intent traffic to this product. (Be specific — "AI for X use case" or "[Product] vs [Competitor]" etc.)<br>
+    <strong>2.</strong> What user-generated content could this product leverage for SEO? (templates, outputs, case studies, reviews?)<br>
+    <strong>3.</strong> Pick one content flywheel rotation: what piece of content would you start with, and how would it generate the next piece?
+    </div>
+    <textarea id="a5" placeholder="Your answer here..."></textarea><br>
+    <button class="btn-save" onclick="saveApply(5)">Save 💾</button>
+    <div class="saved-note" id="sn5">✅ Saved &amp; synced!</div>
+  </div>
+  <div class="complete-wrap">
+    <button class="btn-complete" id="bc5" onclick="completeModule(5)">✅ Complete Module 5 → Unlock Module 6</button>
+  </div>
+</div>
+<div class="module-content" id="module6">
+  <div class="mod-header"><div class="icon">🕸️</div><div><div class="num">Module 6</div><div class="title">Community, Virality &amp; Network Effects</div></div></div>
+
+  <div class="lcard">
+    <h3>🕸️ Network Effects — the Strongest Moat in Tech</h3>
+    <p>A network effect exists when a product becomes more valuable as more people use it. This is the most powerful defensive moat in technology.</p>
+    <div class="hl2"><strong style="color:var(--accent2)">Direct network effects</strong>: More users = more value for all users. (WhatsApp, Slack — worthless alone, invaluable with your team)</div>
+    <div class="hl"><strong>Indirect network effects</strong>: More users on one side benefits the other side. (App Store: more users → more developers → more apps → more users)</div>
+    <div class="hl3"><strong style="color:#34d399">Data network effects</strong>: More users generate more data → better AI model → better product → more users. Unique to AI companies.</div>
+    <div class="analogy"><div class="lbl">💡 Finance analogy</div><p>Network effects = an economic moat. Warren Buffett's moat analogy — businesses with network effects are like a city: the more businesses that set up there, the more valuable the location becomes, making it increasingly expensive for competitors to set up a rival city. This is why VCs pay 100x revenue for network-effect businesses.</p></div>
+  </div>
+
+  <div class="lcard">
+    <h3>🦠 Virality — the K-Factor</h3>
+    <p>The K-factor measures how viral your product is. K = (invitations sent per user) × (% who convert from those invitations).</p>
+    <div style="background:rgba(255,255,255,0.03);border-radius:9px;padding:14px;margin:9px 0">
+      <div style="font-size:13px;color:var(--text2);margin-bottom:8px">Example: Each user invites 5 people. 20% convert. K = 5 × 0.20 = <strong style="color:#fff">1.0</strong></div>
+      <div class="stat-row" style="margin:0">
+        <div class="stat"><div class="v" style="color:var(--red)">K &lt; 1</div><div class="l">Growing but needs other channels</div></div>
+        <div class="stat"><div class="v" style="color:var(--green)">K &gt; 1</div><div class="l">Viral — grows exponentially on its own</div></div>
+      </div>
+    </div>
+    <p>Most products have K &lt; 1. That's OK — even K = 0.3 meaningfully reduces your CAC. <strong style="color:#fff">Design for virality</strong>: add share buttons, make outputs public by default, build collaboration features.</p>
+  </div>
+
+  <div class="lcard">
+    <h3>💬 Community-Led Growth</h3>
+    <p>A community is owned audience. Unlike followers on Twitter or LinkedIn (rented from a platform), your Discord/Slack/email list is an asset you control.</p>
+    <div class="hl"><strong>Why community works for AI products</strong>: Users want to share prompts, tips, and outputs. There's a natural community around "getting better at using this tool."</div>
+    <div class="hl2"><strong style="color:var(--accent2)">Community flywheel</strong>: Build community → members share content → more people discover you → they join the community → share more content → 🔄</div>
+    <div class="callout"><div class="lbl">💡 Owned vs rented audience</div><p>Twitter/Instagram followers = renting. Algorithm changes wipe you out overnight (ask any creator from 2021 who relied on Instagram reach). Discord/email list = owning. You can reach 100% of your audience anytime.</p></div>
+  </div>
+
+  <div class="section-label" style="margin-top:20px">Case study</div>
+  <div class="cs">
+    <div class="cs-head" onclick="toggleCS('cs6')">
+      <span style="font-size:20px">🎨</span>
+      <div class="cs-title">Midjourney — $200M ARR with no sales team, just Discord</div>
+      <span class="cs-badge">Community Case Study</span>
+      <span class="cs-tog" id="cs6-tog">▼</span>
+    </div>
+    <div class="cs-body" id="cs6-body">
+      <h4>The setup (2022)</h4>
+      <p>Midjourney launched their AI image generator in March 2022 exclusively inside a Discord server. No app. No website to sign up on. You had to join the Discord to use it.</p>
+      <h4>Why Discord was the genius move</h4>
+      <ul>
+        <li><strong style="color:#fff">Public by default</strong>: When you generated an image in Midjourney's Discord, everyone in the server saw it. Seeing stunning AI art in real-time made everyone want to try it.</li>
+        <li><strong style="color:#fff">Social proof at scale</strong>: Millions of images were shared publicly. Every generation was a mini advertisement inside the community.</li>
+        <li><strong style="color:#fff">Community = free support</strong>: Users helped each other with prompts. Midjourney had minimal support costs because the community answered questions.</li>
+        <li><strong style="color:#fff">Viral invite loop</strong>: Seeing a friend generate something amazing = immediate motivation to invite yourself.</li>
+      </ul>
+      <h4>Results</h4>
+      <p>$200M+ ARR by 2023. 16M+ members on Discord. No sales team. No paid acquisition to speak of. 40+ person team. One of the highest revenue-per-employee companies in history.</p>
+      <div class="callout" style="margin-top:10px"><div class="lbl">💡 Key takeaway</div><p>Making the product social by default (public generations in Discord) created a community AND a viral engine AND a support channel simultaneously. The product experience WAS the community.</p></div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:20px">Quick quiz</div>
+  <div class="quiz-box">
+    <h3>🧠 Module 6 Quiz</h3><div class="quiz-sub">4 questions · instant feedback</div>
+    <div class="question"><p>1. A "data network effect" is unique to AI companies because:</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'6','1')"><div class="dot"></div>AI companies have more data scientists</div>
+        <div class="opt" data-c onclick="ans(this,'6','1')"><div class="dot"></div>More users → more training data → better AI model → better product → more users (self-reinforcing loop)</div>
+        <div class="opt" onclick="ans(this,'6','1')"><div class="dot"></div>AI products have bigger databases</div>
+        <div class="opt" onclick="ans(this,'6','1')"><div class="dot"></div>AI companies are better at collecting emails</div>
+      </div>
+      <div class="fb ok" id="f6-1-ok">✅ Exactly. Data flywheels compound. The more you use GPT, the better it gets — creating a moat that's very hard for a late entrant to overcome.</div>
+      <div class="fb no" id="f6-1-no">❌ Data network effects = usage generates training data, which improves the model, which attracts more usage. A self-reinforcing competitive moat.</div>
+    </div>
+    <div class="question"><p>2. A product with K-factor of 1.2 means:</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'6','2')"><div class="dot"></div>12 out of 10 users recommend it</div>
+        <div class="opt" data-c onclick="ans(this,'6','2')"><div class="dot"></div>Each user generates 1.2 new users on average — the product grows exponentially without external acquisition</div>
+        <div class="opt" onclick="ans(this,'6','2')"><div class="dot"></div>The product has 120% net revenue retention</div>
+        <div class="opt" onclick="ans(this,'6','2')"><div class="dot"></div>20% of users are on the premium plan</div>
+      </div>
+      <div class="fb ok" id="f6-2-ok">✅ Right. K &gt; 1 = viral. Every 10 users become 12, who become 14.4, who become 17.3... exponential without paid acquisition.</div>
+      <div class="fb no" id="f6-2-no">❌ K = 1.2 means each user brings in 1.2 more users. K &gt; 1 = viral, exponential growth. Most products are below 1 — still useful, just not self-sustaining.</div>
+    </div>
+    <div class="question"><p>3. Midjourney used Discord as a launch platform mainly because:</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'6','3')"><div class="dot"></div>Discord has better image storage than other platforms</div>
+        <div class="opt" onclick="ans(this,'6','3')"><div class="dot"></div>It was the cheapest option to build on</div>
+        <div class="opt" data-c onclick="ans(this,'6','3')"><div class="dot"></div>Generations were public by default, creating social proof and virality inside the community</div>
+        <div class="opt" onclick="ans(this,'6','3')"><div class="dot"></div>Midjourney's team already used Discord internally</div>
+      </div>
+      <div class="fb ok" id="f6-3-ok">✅ The public-by-default nature of Discord channels turned every generated image into a viral moment. The product experience spread itself.</div>
+      <div class="fb no" id="f6-3-no">❌ The key was public generations. In Discord, everyone sees your outputs — creating instant social proof and FOMO that spread the product virally.</div>
+    </div>
+    <div class="question"><p>4. "Owned audience" vs "rented audience" means:</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'6','4')"><div class="dot"></div>Owned = paid followers; Rented = organic followers</div>
+        <div class="opt" data-c onclick="ans(this,'6','4')"><div class="dot"></div>Owned = email/community you control; Rented = social followers subject to algorithm changes</div>
+        <div class="opt" onclick="ans(this,'6','4')"><div class="dot"></div>Owned = enterprise customers; Rented = SMBs</div>
+        <div class="opt" onclick="ans(this,'6','4')"><div class="dot"></div>Owned = desktop users; Rented = mobile users</div>
+      </div>
+      <div class="fb ok" id="f6-4-ok">✅ Right. Email lists and Discord servers are assets. Instagram reach can disappear overnight when the algorithm changes. You don't own your followers.</div>
+      <div class="fb no" id="f6-4-no">❌ Owned = you control the relationship (email, community). Rented = platform controls it (social media). Algorithm changes can wipe out rented audiences instantly.</div>
+    </div>
+    <div class="qresult" id="qr6"><div class="sc" id="qs6"></div><div class="msg" id="qm6"></div></div>
+  </div>
+
+  <div class="section-label" style="margin-top:20px">Apply it → Portfolio</div>
+  <div class="apply-box">
+    <h3>🕸️ Apply it</h3><div class="apply-sub">For your chosen AI product:</div>
+    <div class="apply-prompt">
+    <strong>1.</strong> What type of network effect (if any) does this product have? (direct, indirect, data, none — and why)<br>
+    <strong>2.</strong> Estimate the K-factor: how often do users naturally share or invite others? What could you add to increase it?<br>
+    <strong>3.</strong> Design a simple community strategy: what platform, what content, what would make members stay and recruit others?
+    </div>
+    <textarea id="a6" placeholder="Your answer here..."></textarea><br>
+    <button class="btn-save" onclick="saveApply(6)">Save 💾</button>
+    <div class="saved-note" id="sn6">✅ Saved &amp; synced!</div>
+  </div>
+  <div class="complete-wrap">
+    <button class="btn-complete" id="bc6" onclick="completeModule(6)">✅ Complete Module 6 → Unlock Module 7</button>
+  </div>
+</div>
+<div class="module-content" id="module7">
+  <div class="mod-header"><div class="icon">🤖</div><div><div class="num">Module 7</div><div class="title">AI-Specific Growth Patterns</div></div></div>
+
+  <div class="lcard">
+    <h3>🎬 The Demo as a Growth Channel</h3>
+    <p>AI products are uniquely demoable. A 60-second video showing something impossible (or magical) drives more signups than any ad campaign.</p>
+    <p>This is a new growth channel that didn't exist before AI. <strong style="color:#fff">The demo video IS the acquisition funnel</strong> for many AI products.</p>
+    <div style="background:rgba(255,255,255,0.03);border-radius:9px;padding:14px;margin:9px 0;font-size:13px">
+      <div style="margin-bottom:7px"><span style="color:#a78bfa;font-weight:600">v0.dev (Vercel):</span> <span style="color:var(--text2)">One tweet showing "type a UI in plain English → get working React code" → 40K waitlist in 48 hours</span></div>
+      <div style="margin-bottom:7px"><span style="color:var(--accent2);font-weight:600">Cursor:</span> <span style="color:var(--text2)">Demo showing AI writing a full feature from a comment → viral across developer Twitter</span></div>
+      <div><span style="color:#34d399;font-weight:600">Kling AI:</span> <span style="color:var(--text2)">One video of a cat eating watermelon (absurdly realistic) → millions of views, massive signups</span></div>
+    </div>
+    <div class="analogy"><div class="lbl">💡 Finance analogy</div><p>A demo is like a fund's pitch at a LP day — you have 3 minutes to make them feel the potential. Unlike a deck full of numbers, a live demo makes people feel "I need this." The best demos don't explain — they show something that makes jaws drop.</p></div>
+  </div>
+
+  <div class="lcard">
+    <h3>⚡ Engineering the "Wow Moment"</h3>
+    <p>The wow moment is the instant a user experiences something that feels magical or impossible. AI products are uniquely positioned to create these moments. Growth teams obsess over them.</p>
+    <div class="hl2"><strong style="color:var(--accent2)">Time-to-wow matters enormously</strong>: If users don't hit the wow moment in their first session, they may never return. Reduce steps to zero. Remove signup friction. Show value before you ask for an email.</div>
+    <p>Framework: <strong style="color:#fff">FTUE (First Time User Experience)</strong> = the sequence from landing page → signup → first action → WOW. Every step that adds friction kills conversion.</p>
+    <div class="stat-row">
+      <div class="stat"><div class="v" style="color:var(--red)">77%</div><div class="l">of users who don't activate in first session never return</div></div>
+      <div class="stat"><div class="v" style="color:var(--green)">&lt;60s</div><div class="l">Target: wow moment within 60 seconds of first use</div></div>
+    </div>
+  </div>
+
+  <div class="lcard">
+    <h3>🔒 AI-Specific Growth Moats</h3>
+    <p>AI companies can build moats that are structurally harder for competitors to replicate than traditional software.</p>
+    <div class="hl3"><strong style="color:#34d399">Data flywheel</strong>: Usage → training data → better model → more usage. The longer you run, the harder to catch up. (Why OpenAI's head start matters)</div>
+    <div class="hl2"><strong style="color:var(--accent2)">Workflow lock-in</strong>: Once a team integrates your AI into their daily workflow, switching costs are high. (Cursor users can't easily go back to VS Code)</div>
+    <div class="hl"><strong>Personalization compounds</strong>: AI that learns your preferences, writing style, or codebase becomes more valuable over time. Your data is in there.</div>
+    <div class="callout"><div class="lbl">🎯 Growth implication</div><p>For AI products, getting users deeply integrated into their workflow early (even at a loss) is more valuable than short-term monetization. The switching cost becomes your moat. This is why Cursor, GitHub Copilot, and ChatGPT all have aggressive free tiers.</p></div>
+  </div>
+
+  <div class="section-label" style="margin-top:20px">Case study</div>
+  <div class="cs">
+    <div class="cs-head" onclick="toggleCS('cs7')">
+      <span style="font-size:20px">⚡</span>
+      <div class="cs-title">v0.dev — From waitlist to viral with one tweet</div>
+      <span class="cs-badge">AI Demo Case Study</span>
+      <span class="cs-tog" id="cs7-tog">▼</span>
+    </div>
+    <div class="cs-body" id="cs7-body">
+      <h4>What is v0?</h4>
+      <p>v0.dev is Vercel's AI UI generator. You describe a UI in plain English, it generates working React/Tailwind code. No design skills needed.</p>
+      <h4>The growth moment</h4>
+      <p>In October 2023, Vercel CEO Guillermo Rauch posted a tweet showing v0 generating a complete, styled UI from a text prompt. The tweet showed something that genuinely looked impossible — production-quality code from a sentence.</p>
+      <h4>What happened</h4>
+      <ul>
+        <li>Tweet went viral in developer Twitter within hours</li>
+        <li>40,000+ waitlist signups in 48 hours with no paid promotion</li>
+        <li>Hundreds of developers created their own demos and shared them — amplifying the original viral moment</li>
+        <li>Every demo was a new acquisition funnel: "Watch this person build an entire app in 2 minutes"</li>
+      </ul>
+      <h4>The growth loop</h4>
+      <p>Demo goes viral → signups → users make their own demos → post on Twitter → more signups → repeat. The output was inherently shareable, and sharing was free distribution.</p>
+      <div class="callout" style="margin-top:10px"><div class="lbl">💡 Key takeaway</div><p>For AI products, one perfect demo that shows something "impossible" beats months of marketing spend. The question to ask: what's the single most impressive thing my product can do? Now build a demo around exactly that.</p></div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:20px">Quick quiz</div>
+  <div class="quiz-box">
+    <h3>🧠 Module 7 Quiz</h3><div class="quiz-sub">4 questions · instant feedback</div>
+    <div class="question"><p>1. Why are AI products uniquely well-suited to demo-driven growth?</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'7','1')"><div class="dot"></div>AI products have bigger marketing budgets</div>
+        <div class="opt" data-c onclick="ans(this,'7','1')"><div class="dot"></div>AI outputs are often surprising or jaw-dropping — making them inherently shareable and compelling to watch</div>
+        <div class="opt" onclick="ans(this,'7','1')"><div class="dot"></div>Demos are cheaper to produce than ads</div>
+        <div class="opt" onclick="ans(this,'7','1')"><div class="dot"></div>AI products are harder to explain in text</div>
+      </div>
+      <div class="fb ok" id="f7-1-ok">✅ Exactly. AI demos create "that shouldn't be possible" moments. Those moments make people share. Sharing = free distribution.</div>
+      <div class="fb no" id="f7-1-no">❌ AI outputs can be magical — they show something humans couldn't do before. That surprise = shareability = free growth channel.</div>
+    </div>
+    <div class="question"><p>2. The "data flywheel" moat means:</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'7','2')"><div class="dot"></div>AI companies store data in more secure flywheels</div>
+        <div class="opt" data-c onclick="ans(this,'7','2')"><div class="dot"></div>More usage → more training data → better AI → more users → more usage (self-compounding advantage)</div>
+        <div class="opt" onclick="ans(this,'7','2')"><div class="dot"></div>AI companies have faster data transfer speeds</div>
+        <div class="opt" onclick="ans(this,'7','2')"><div class="dot"></div>Data flywheels reduce infrastructure costs</div>
+      </div>
+      <div class="fb ok" id="f7-2-ok">✅ This is why early market leaders in AI are so hard to dislodge — their data advantage compounds over time.</div>
+      <div class="fb no" id="f7-2-no">❌ Data flywheel = usage generates data, data improves the model, better model attracts more users. Self-reinforcing advantage that grows with time.</div>
+    </div>
+    <div class="question"><p>3. Why do many AI products offer aggressive free tiers even at a financial loss?</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'7','3')"><div class="dot"></div>They can't yet charge for AI features</div>
+        <div class="opt" onclick="ans(this,'7','3')"><div class="dot"></div>Investors require free tiers</div>
+        <div class="opt" data-c onclick="ans(this,'7','3')"><div class="dot"></div>Workflow integration creates switching costs — getting users deeply hooked early is more valuable than short-term revenue</div>
+        <div class="opt" onclick="ans(this,'7','3')"><div class="dot"></div>AI inference costs are near-zero</div>
+      </div>
+      <div class="fb ok" id="f7-3-ok">✅ Right. The moat is workflow lock-in. Once Cursor is deeply integrated in your coding workflow, going back to VS Code is painful. That switching cost is worth the free tier.</div>
+      <div class="fb no" id="f7-3-no">❌ Workflow integration = high switching cost = long-term moat. Giving away the product to create dependency is a deliberate strategy, not generosity.</div>
+    </div>
+    <div class="question"><p>4. v0.dev's most powerful growth mechanic was:</p>
+      <div class="opts">
+        <div class="opt" onclick="ans(this,'7','4')"><div class="dot"></div>Paid search ads targeting developers</div>
+        <div class="opt" onclick="ans(this,'7','4')"><div class="dot"></div>A large Discord community</div>
+        <div class="opt" data-c onclick="ans(this,'7','4')"><div class="dot"></div>A viral demo tweet showing an "impossible" UI being generated instantly — making users want to share their own</div>
+        <div class="opt" onclick="ans(this,'7','4')"><div class="dot"></div>A press release in TechCrunch</div>
+      </div>
+      <div class="fb ok" id="f7-4-ok">✅ One jaw-dropping demo → viral → users made their own demos → more viral. The demo was the acquisition funnel.</div>
+      <div class="fb no" id="f7-4-no">❌ One perfect demo tweet drove 40K signups in 48 hours. Then users made their own demos — amplifying the effect. Demo-driven growth at its finest.</div>
+    </div>
+    <div class="qresult" id="qr7"><div class="sc" id="qs7"></div><div class="msg" id="qm7"></div></div>
+  </div>
+
+  <div class="section-label" style="margin-top:20px">Apply it → Portfolio</div>
+  <div class="apply-box">
+    <h3>🤖 Apply it</h3><div class="apply-sub">For your chosen AI product:</div>
+    <div class="apply-prompt">
+    <strong>1.</strong> What's the single most jaw-dropping thing this product can do? Describe it as if you were setting up a demo tweet.<br>
+    <strong>2.</strong> What AI-specific moats does this product have or could build? (data flywheel, workflow lock-in, personalization compound?)<br>
+    <strong>3.</strong> Design a "FTUE" — from landing page to wow moment — in 5 steps or fewer. What would you cut to shorten it?
+    </div>
+    <textarea id="a7" placeholder="Your answer here..."></textarea><br>
+    <button class="btn-save" onclick="saveApply(7)">Save 💾</button>
+    <div class="saved-note" id="sn7">✅ Saved &amp; synced!</div>
+  </div>
+  <div class="complete-wrap">
+    <button class="btn-complete" id="bc7" onclick="completeModule(7)">✅ Complete Module 7 → Unlock Module 8 🏆</button>
+  </div>
+</div>
+<div class="module-content" id="module8">
+  <div class="mod-header"><div class="icon">🏆</div><div><div class="num">Module 8 — Portfolio Capstone</div><div class="title">Build Your Full GTM Plan</div></div></div>
+  <div class="lcard" style="border-color:rgba(16,185,129,0.3)">
+    <h3 style="color:#34d399">🎉 You made it! Here's what you've built.</h3>
+    <p>Over 7 modules, you've answered questions about one AI product from every angle. This module assembles your thinking into a complete GTM plan — your portfolio piece.</p>
+    <p>Below, you'll see your answers from each module, plus a final 90-day launch plan to complete. <strong style="color:#fff">Together, this is a real growth strategy document you can show in interviews.</strong></p>
+  </div>
+
+  <div class="section-label" style="margin-top:20px">Your assembled GTM plan</div>
+
+  <div class="m8-section">
+    <h4>📌 Section 1 — Product &amp; Growth Foundation (from Module 1)</h4>
+    <p style="font-size:12px;color:var(--text3);margin-bottom:6px">The product you analyzed and its core growth story:</p>
+    <div class="m8-prev empty" id="m8-a1">Complete Module 1's "Apply it" to fill this in</div>
+  </div>
+
+  <div class="m8-section">
+    <h4>📊 Section 2 — Metrics Strategy (from Module 2)</h4>
+    <p style="font-size:12px;color:var(--text3);margin-bottom:6px">North Star Metric, AARRR framework, and retention definition:</p>
+    <div class="m8-prev empty" id="m8-a2">Complete Module 2's "Apply it" to fill this in</div>
+  </div>
+
+  <div class="m8-section">
+    <h4>🔄 Section 3 — PLG Strategy (from Module 3)</h4>
+    <p style="font-size:12px;color:var(--text3);margin-bottom:6px">PLG vs SLG approach, aha moment, and time-to-wow improvement plan:</p>
+    <div class="m8-prev empty" id="m8-a3">Complete Module 3's "Apply it" to fill this in</div>
+  </div>
+
+  <div class="m8-section">
+    <h4>🗺️ Section 4 — ICP &amp; Positioning (from Module 4)</h4>
+    <p style="font-size:12px;color:var(--text3);margin-bottom:6px">Ideal Customer Profile, positioning statement, and channel strategy:</p>
+    <div class="m8-prev empty" id="m8-a4">Complete Module 4's "Apply it" to fill this in</div>
+  </div>
+
+  <div class="m8-section">
+    <h4>✍️ Section 5 — Content &amp; SEO (from Module 5)</h4>
+    <p style="font-size:12px;color:var(--text3);margin-bottom:6px">Content strategy, SEO priorities, and flywheel plan:</p>
+    <div class="m8-prev empty" id="m8-a5">Complete Module 5's "Apply it" to fill this in</div>
+  </div>
+
+  <div class="m8-section">
+    <h4>🕸️ Section 6 — Community &amp; Virality (from Module 6)</h4>
+    <p style="font-size:12px;color:var(--text3);margin-bottom:6px">Network effects, K-factor analysis, and community design:</p>
+    <div class="m8-prev empty" id="m8-a6">Complete Module 6's "Apply it" to fill this in</div>
+  </div>
+
+  <div class="m8-section">
+    <h4>🤖 Section 7 — AI-Specific Tactics (from Module 7)</h4>
+    <p style="font-size:12px;color:var(--text3);margin-bottom:6px">Demo strategy, wow moment engineering, and AI moats:</p>
+    <div class="m8-prev empty" id="m8-a7">Complete Module 7's "Apply it" to fill this in</div>
+  </div>
+
+  <div class="section-label" style="margin-top:20px">Final section — complete your plan</div>
+  <div class="apply-box" style="border-color:rgba(16,185,129,0.3)">
+    <h3 style="color:#34d399">🚀 Section 8 — Your 90-Day Launch Plan</h3>
+    <div class="apply-sub">The final piece. Make it specific and actionable.</div>
+    <div class="apply-prompt" style="border-color:var(--green);background:rgba(16,185,129,0.05)">
+    <strong>Month 1 — Foundation:</strong> What would you do in the first 30 days? (Who do you talk to? What do you build? What do you measure?)<br><br>
+    <strong>Month 2 — First growth experiment:</strong> What's the first growth experiment you'd run? What's your hypothesis and how do you measure success?<br><br>
+    <strong>Month 3 — Scale what works:</strong> Assuming one thing from Month 2 worked — how do you scale it? What's the distribution channel?<br><br>
+    <strong>Your North Star for Day 90:</strong> What single metric would prove this is working?
+    </div>
+    <textarea id="a8" placeholder="Write your 90-day launch plan here..."></textarea><br>
+    <button class="btn-save" onclick="saveApply(8)">Save 💾</button>
+    <div class="saved-note" id="sn8">✅ Saved &amp; synced!</div>
+  </div>
+
+  <div style="text-align:center;padding:20px 0">
+    <button class="btn-export" onclick="exportGTMPlan()">📄 Export Full GTM Plan</button>
+    <p style="font-size:12px;color:var(--text3);margin-top:8px">Copies your complete plan to clipboard — paste into a doc to share</p>
+  </div>
+  <div class="complete-wrap">
+    <button class="btn-complete" id="bc8" onclick="completeModule(8)">🏆 Complete the Academy!</button>
+  </div>
+</div>
+</div><!-- end app -->
+<script>
+const REPO = 'wjia08/growth-academy';
+const PROGRESS_FILE = 'progress.json';
+
+// ── State ──────────────────────────────────────────────────────────────
+let state = {
+  completed: [],
+  scores: {},
+  answers: {},
+  quizAnswered: {}
+};
+
+function saveLocal() {
+  localStorage.setItem('jh_growth_state', JSON.stringify(state));
+}
+
+function loadLocal() {
+  try {
+    const s = JSON.parse(localStorage.getItem('jh_growth_state') || '{}');
+    if (s.completed) state.completed = s.completed;
+    if (s.scores) state.scores = s.scores;
+    if (s.answers) state.answers = s.answers;
+    if (s.quizAnswered) state.quizAnswered = s.quizAnswered;
+  } catch(e) {}
+}
+
+// ── GitHub sync ────────────────────────────────────────────────────────
+function getToken() { return localStorage.getItem('gh_sync_token') || ''; }
+function storeToken(t) { localStorage.setItem('gh_sync_token', t.trim()); }
+
+async function pushToGitHub() {
+  const token = getToken();
+  if (!token) return;
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(state, null, 2))));
+  const headers = { 'Authorization': 'token ' + token, 'Content-Type': 'application/json' };
+  try {
+    let sha = '';
+    const get = await fetch(`https://api.github.com/repos/${REPO}/contents/${PROGRESS_FILE}`, { headers });
+    if (get.ok) { const d = await get.json(); sha = d.sha; }
+    await fetch(`https://api.github.com/repos/${REPO}/contents/${PROGRESS_FILE}`, {
+      method: 'PUT', headers,
+      body: JSON.stringify({ message: 'Progress update', content, sha })
+    });
+  } catch(e) { console.log('GitHub sync error:', e); }
+}
+
+async function loadFromGitHub() {
+  const token = getToken();
+  if (!token) return;
+  try {
+    const r = await fetch(`https://api.github.com/repos/${REPO}/contents/${PROGRESS_FILE}`,
+      { headers: { 'Authorization': 'token ' + token } });
+    if (!r.ok) return;
+    const d = await r.json();
+    const remote = JSON.parse(decodeURIComponent(escape(atob(d.content.replace(/\n/g,'')))));
+    if (remote.completed) state.completed = [...new Set([...state.completed, ...remote.completed])];
+    if (remote.scores) state.scores = { ...state.scores, ...remote.scores };
+    if (remote.answers) state.answers = { ...state.answers, ...remote.answers };
+    if (remote.quizAnswered) state.quizAnswered = { ...state.quizAnswered, ...remote.quizAnswered };
+    saveLocal();
+    renderAll();
+    showSyncStatus('✅ Synced from GitHub');
+  } catch(e) { console.log('Load from GitHub error:', e); }
+}
+
+function showSyncStatus(msg) {
+  const el = document.getElementById('sync-status');
+  if (el) { el.textContent = msg; el.style.display = 'block'; setTimeout(() => el.style.display = 'none', 3000); }
+}
+
+// ── Settings modal ──────────────────────────────────────────────────────
+function showSettings() {
+  document.getElementById('settings-overlay').style.display = 'flex';
+  const t = getToken();
+  if (t) document.getElementById('token-input').value = t.slice(0,8) + '...hidden';
+}
+function hideSettings() { document.getElementById('settings-overlay').style.display = 'none'; }
+
+function saveTokenAndSync() {
+  const t = document.getElementById('token-input').value.trim();
+  if (t && !t.includes('...hidden')) storeToken(t);
+  const pEl = document.getElementById('product-input'); const p = pEl ? pEl.value.trim() : '';
+  if (p) { state.productName = p; saveLocal(); }
+  if (p) {
+    const pn = document.getElementById('product-name-display');
+    if (pn) pn.textContent = p;
+  }
+  hideSettings();
+  showSyncStatus('⚙️ Settings saved');
+}
+
+async function handleSyncClick() {
+  if (!getToken()) { showSettings(); return; }
+  showSyncStatus('⏳ Syncing...');
+  await pushToGitHub();
+  showSyncStatus('✅ Synced to GitHub!');
+}
+
+// ── Module rendering ───────────────────────────────────────────────────
+function renderAll() {
+  for (let m = 1; m <= 8; m++) {
+    const unlocked = m === 1 || state.completed.includes(m - 1);
+    const completed = state.completed.includes(m);
+    const card = document.getElementById('mc' + m);
+    const badge = document.getElementById('ms' + m);
+    if (card) {
+      card.classList.toggle('unlocked', unlocked);
+      card.classList.toggle('completed', completed);
+      card.classList.toggle('locked', !unlocked);
+    }
+    if (badge) {
+      badge.textContent = completed ? '✅ Done' : unlocked ? '🔓 Unlocked' : '🔒 Locked';
+      badge.className = 'mod-status' + (completed ? ' done' : unlocked ? ' open' : ' locked');
+    }
+  }
+  // Restore answers
+  for (let m = 1; m <= 8; m++) {
+    const ta = document.getElementById('a' + m);
+    if (ta && state.answers['a' + m]) ta.value = state.answers['a' + m];
+  }
+  // Restore quiz answered state
+  Object.entries(state.quizAnswered || {}).forEach(([key, correct]) => {
+    const [mod, q] = key.split('-');
+    // Just mark visually already answered
+  });
+  // Update complete buttons
+  for (let m = 1; m <= 8; m++) {
+    const btn = document.getElementById('bc' + m);
+    if (btn && state.completed.includes(m)) {
+      btn.textContent = '✅ Module ' + m + ' Complete!';
+      btn.disabled = true;
+      btn.style.opacity = '0.6';
+    }
+  }
+  // Populate M8 previous answers
+  for (let m = 1; m <= 7; m++) {
+    const el = document.getElementById('m8-a' + m);
+    if (el) {
+      const ans = state.answers['a' + m];
+      if (ans && ans.trim()) {
+        el.textContent = ans;
+        el.classList.remove('empty');
+      }
+    }
+  }
+  // Update quiz scores display
+  Object.entries(state.scores || {}).forEach(([mod, sc]) => {
+    const qs = document.getElementById('qs' + mod);
+    const qm = document.getElementById('qm' + mod);
+    const qr = document.getElementById('qr' + mod);
+    if (qs && qm && qr) {
+      qs.textContent = sc + '/4';
+      qm.textContent = sc === 4 ? '🎉 Perfect score!' : sc >= 3 ? '💪 Great work!' : sc >= 2 ? '📚 Review and retry' : '🔄 Try again';
+      qr.style.display = 'block';
+    }
+  });
+}
+
+// ── Navigation ──────────────────────────────────────────────────────────
+let activeModule = null;
+
+function openModule(m) {
+  const unlocked = m === 1 || state.completed.includes(m - 1);
+  if (!unlocked) {
+    alert('Complete Module ' + (m-1) + ' first to unlock this module!');
+    return;
+  }
+  if (activeModule !== null) {
+    const prev = document.getElementById('module' + activeModule);
+    if (prev) prev.style.display = 'none';
+  }
+  document.getElementById('modules-grid').style.display = 'none';
+  document.getElementById('hero').style.display = 'none';
+  const content = document.getElementById('module' + m);
+  if (content) {
+    content.style.display = 'block';
+    content.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  activeModule = m;
+  // Update M8 previews when opening M8
+  if (m === 8) {
+    for (let i = 1; i <= 7; i++) {
+      const el = document.getElementById('m8-a' + i);
+      if (el) {
+        const ans = state.answers['a' + i];
+        if (ans && ans.trim()) { el.textContent = ans; el.classList.remove('empty'); }
+      }
+    }
+  }
+}
+
+function goHome() {
+  if (activeModule !== null) {
+    const prev = document.getElementById('module' + activeModule);
+    if (prev) prev.style.display = 'none';
+    activeModule = null;
+  }
+  document.getElementById('modules-grid').style.display = 'grid';
+  document.getElementById('hero').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── Case study toggle ──────────────────────────────────────────────────
+function toggleCS(id) {
+  const body = document.getElementById(id + '-body');
+  const tog = document.getElementById(id + '-tog');
+  if (!body) return;
+  const open = body.style.display === 'block';
+  body.style.display = open ? 'none' : 'block';
+  if (tog) tog.textContent = open ? '▼' : '▲';
+}
+
+// ── Quiz ───────────────────────────────────────────────────────────────
+function ans(el, mod, q) {
+  const correct = el.hasAttribute('data-c');
+  const key = mod + '-' + q;
+  if (state.quizAnswered && state.quizAnswered[key] !== undefined) return;
+  
+  // Mark all options in this question
+  const qDiv = el.closest('.question');
+  qDiv.querySelectorAll('.opt').forEach(o => {
+    o.style.pointerEvents = 'none';
+    if (o.hasAttribute('data-c')) o.classList.add('correct');
+    else o.classList.add('wrong');
+  });
+  if (correct) el.classList.add('correct');
+  else el.classList.add('wrong');
+
+  // Show feedback
+  const okEl = document.getElementById('f' + mod + '-' + q + '-ok');
+  const noEl = document.getElementById('f' + mod + '-' + q + '-no');
+  if (correct && okEl) okEl.style.display = 'block';
+  if (!correct && noEl) noEl.style.display = 'block';
+
+  // Track score
+  if (!state.quizAnswered) state.quizAnswered = {};
+  state.quizAnswered[key] = correct;
+
+  // Check if all 4 answered
+  const answered = [1,2,3,4].filter(n => state.quizAnswered[mod+'-'+n] !== undefined);
+  if (answered.length === 4) {
+    const score = answered.filter(n => state.quizAnswered[mod+'-'+n]).length;
+    state.scores[mod] = score;
+    const qs = document.getElementById('qs' + mod);
+    const qm = document.getElementById('qm' + mod);
+    const qr = document.getElementById('qr' + mod);
+    if (qs) qs.textContent = score + '/4';
+    if (qm) qm.textContent = score === 4 ? '🎉 Perfect score!' : score >= 3 ? '💪 Great work!' : score >= 2 ? '📚 Review and retry' : '🔄 Try again';
+    if (qr) qr.style.display = 'block';
+    saveLocal();
+  }
+}
+
+// ── Apply / save ────────────────────────────────────────────────────────
+function saveApply(m) {
+  const ta = document.getElementById('a' + m);
+  if (ta) state.answers['a' + m] = ta.value;
+  saveLocal();
+  const sn = document.getElementById('sn' + m);
+  if (sn) { sn.style.display = 'block'; setTimeout(() => sn.style.display = 'none', 2500); }
+  pushToGitHub();
+  // Update M8 if open
+  if (activeModule === 8) {
+    const el = document.getElementById('m8-a' + m);
+    if (el && ta && ta.value.trim()) { el.textContent = ta.value; el.classList.remove('empty'); }
+  }
+}
+
+// ── Complete module ────────────────────────────────────────────────────
+function completeModule(m) {
+  if (!state.completed.includes(m)) state.completed.push(m);
+  const ta = document.getElementById('a' + m);
+  if (ta) state.answers['a' + m] = ta.value;
+  saveLocal();
+  renderAll();
+  pushToGitHub();
+
+  const btn = document.getElementById('bc' + m);
+  if (btn) { btn.textContent = '✅ Module ' + m + ' Complete!'; btn.disabled = true; btn.style.opacity = '0.6'; }
+
+  if (m < 8) {
+    setTimeout(() => {
+      const next = confirm('🎉 Module ' + m + ' complete! Module ' + (m+1) + ' is now unlocked. Go there now?');
+      if (next) { goHome(); setTimeout(() => openModule(m+1), 300); }
+    }, 300);
+  } else {
+    setTimeout(() => alert('🏆 Congratulations! You've completed the entire Growth Academy! Your GTM plan is ready to export.'), 300);
+  }
+}
+
+// ── Export GTM plan ─────────────────────────────────────────────────────
+function exportGTMPlan() {
+  const product = state.productName || 'My AI Product';
+  let text = `GTM PLAN — ${product}\nBuilt with JH Growth Academy\n${'='.repeat(50)}\n\n`;
+  const sections = [
+    ['Section 1 — Product & Growth Foundation', 'a1'],
+    ['Section 2 — Metrics Strategy', 'a2'],
+    ['Section 3 — PLG Strategy', 'a3'],
+    ['Section 4 — ICP & Positioning', 'a4'],
+    ['Section 5 — Content & SEO', 'a5'],
+    ['Section 6 — Community & Virality', 'a6'],
+    ['Section 7 — AI-Specific Tactics', 'a7'],
+    ['Section 8 — 90-Day Launch Plan', 'a8'],
+  ];
+  sections.forEach(([title, key]) => {
+    text += `${title}\n${'-'.repeat(40)}\n`;
+    text += (state.answers[key] || '(not yet completed)') + '\n\n';
+  });
+  navigator.clipboard.writeText(text).then(() => {
+    alert('📋 GTM Plan copied to clipboard! Paste into any document.');
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    alert('📋 GTM Plan copied to clipboard!');
+  });
+}
+
+// ── Init ────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  loadLocal();
+  renderAll();
+  if (getToken()) { loadFromGitHub(); }
+  // Close settings on overlay click
+  document.getElementById('settings-overlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('settings-overlay')) hideSettings();
+  });
+  // Set product name display
+  if (state.productName) {
+    const pn = document.getElementById('product-name-display');
+    if (pn) pn.textContent = state.productName;
+  }
+});
+</script>
+</body>
+</html>
